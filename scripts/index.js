@@ -14,18 +14,17 @@ var selected = 0;
 var displayMenu = function() {
   grid().clear().color('white');
   
-  var line = 3;
-  row(line++).centerText('====================================').color('red');
+  var line = 4;
+  row(line++).centerText('======================================').color('red');
   line++;
-  row(line++).centerText('  WWWW   W       W   W  W     W').color('white');
-  row(line++).centerText('WWWW  W  W       W   W  WW   WW').color('yellow');
-  row(line++).centerText('WWWW     WW  W  WW   W  WW   WW').color('yellow');
-  row(line++).centerText(' WWWWW   WW  W  WW   W  WWW  WW').color('yellow');
-  row(line++).centerText('   WWWW  WWW W WWW  WW  WW W WW').color('orange');
-  row(line++).centerText('W  WWWW   WWW WWW   WW  WW  WWW').color('orange');
-  row(line++).centerText(' WWWW     WW   WW   WW  WW   WW').color('red');
+  row(line++).centerText(' #   #  #### ####    ####   ###  ## ##').color('white');
+  row(line++).centerText('##   ## ##   ## ##  ###  # ##  # ## ##').color('yellow');
+  row(line++).centerText('## # ## #### ####    ###   ##    ## ##').color('yellow');
+  row(line++).centerText('## # ## ##   ## ##    ###  ##    ## ##').color('yellow');
+  row(line++).centerText('####### #### ## ##  #  ### ##  # ## ##').color('orange');
+  row(line++).centerText(' ## ##  #### ####    ####   ###  ## ##').color('red');
   line++;
-  row(line++).centerText('====================================').color('red');
+  row(line++).centerText('======================================').color('red');
   
   line = OPTIONS_START;
   for (let game of options) {
