@@ -1,3 +1,6 @@
+// This file asks as the link between the game core and 
+// the html/css code
+
 "use strict";
 
 const WIDTH = 40;
@@ -206,6 +209,39 @@ Group.prototype.centerText = function(content) {
   }
 }
 
+function onButtonUp(listener) {
+  $('#up').click(listener);
+}
+
+function onButtonDown(listener) {
+  $('#down').click(listener);
+}
+
+function onButtonRight(listener) {
+  $('#right').click(listener);
+}
+
+function onButtonLeft(listener) {
+  $('#left').click(listener);
+}
+
+function onButtonA(listener) {
+  $('#a').click(listener);
+}
+
+function onButtonB(listener) {
+  $('#b').click(listener);
+}
+
+/* reserved for going to the main menu */
+//function onButtonStart(listener) {
+//  $('#start').click(listener);
+//}
+
+function onButtonSelect(listener) {
+  $('#select').click(listener);
+}
+
 var generateGrid = function() {
   var window = $('#game-window');
   for (let j = 0; j < HEIGHT; j++) {
@@ -222,6 +258,27 @@ var generateGrid = function() {
   }
 }
 
+var setupKeyCodes = function() {
+  $(document).keydown(function(event) {
+    if (event.key == 'ArrowUp')
+      $('#up').trigger('click');
+    if (event.key == 'ArrowDown')
+      $('#down').trigger('click');
+    if (event.key == 'ArrowLeft')
+      $('#left').trigger('click');
+    if (event.key == 'ArrowRight')
+      $('#right').trigger('click');
+    if (event.key == 'Enter')
+      $('#a').trigger('click');
+  });
+  
+  $('#start').click(function() {
+    window.location.href = 'index.html';
+  });
+}
+
 $(function() {
   generateGrid();
+  
+  setupKeyCodes();
 });
