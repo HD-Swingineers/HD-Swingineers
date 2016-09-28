@@ -1,0 +1,127 @@
+body {
+  background: black;
+}
+* {
+  font-family: monospace;
+  font-size: 14px;
+}
+
+main {
+  text-align: center;
+  position: fixed;
+  left: 50%;
+  margin-left: -320px;
+  top: 50%;
+  margin-top: -300px;
+}
+
+#game-window {
+  color: #4f4;
+  display: inline-block;
+  background: #111;
+  width: 640px;
+  height: 480px;
+  padding: 0;
+  margin: 0;
+  line-height: 10px;
+}
+
+.cell {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  overflow: hidden;
+  -moz-user-select: none;
+  user-select: none;
+  line-height: 16px;
+}
+
+.controlls {
+  position: relative;
+}
+
+/* Style the A and B keys */
+.actions {
+  position: absolute;
+  right: 16px;
+  top: 32px;
+}
+#a, #b {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: #A22;
+  color: white;
+}
+#a {
+  position: relative;
+  top: 20px;
+}
+
+/* Style the arrow keys */
+.arrows {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+}
+.arrows::after {
+  content: ' ';
+  background: #222;
+  width: 34px;
+  height: 34px;
+  display: inline-block;
+  position: absolute;
+  top: 31px;
+  left: 31px;
+  border-radius: 1px;
+}
+.arrows button {
+  background: #222;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  color: white;
+  border: none;
+  border-top: 1px solid #444;
+  border-bottom: 4px solid #111;
+}
+.arrows button:active {
+  background: #111;
+}
+#left {
+  top: 32px;
+  left: 0;
+}
+#right {
+  top: 32px;
+  left: 64px;
+}
+#up {
+  top: 0;
+  left: 32px;
+  border-bottom: none;
+}
+#down {
+  top: 64px;
+  left: 32px;
+  border-top: none;
+}
+
+/* Style the start and select buttons */
+.options {
+  position: relative;
+  top: 32px;
+}
+.options button {
+  height: 12px;
+  width: 48px;
+  margin: 12px 8px;
+  line-height: 40px;
+  color: #AAA;
+  text-align: center;
+}
+/* To center text even though it overflows*/
+.options button::before, .options button::after{
+  margin-left: -100px;
+  content: ' ';
+}
