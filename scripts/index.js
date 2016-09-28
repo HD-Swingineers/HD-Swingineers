@@ -14,7 +14,7 @@ var selected = 0;
 var displayMenu = function() {
   grid().clear().color('white');
   
-  var line = 3;
+  var line = 1;
   row(line++).centerText('====================================').color('red');
   line++;
   row(line++).centerText('  WWWW   W       W   W  W     W').color('white');
@@ -33,7 +33,7 @@ var displayMenu = function() {
     line += 2;
   }
   
-  row(HEIGHT-2).centerText('A GAME BY THE SWINGINEERS').color('lightgray');
+  row(HEIGHT-3).centerText('A GAME BY THE SWINGINEERS').color('lightgray');
   
   setSelected(0);
 }
