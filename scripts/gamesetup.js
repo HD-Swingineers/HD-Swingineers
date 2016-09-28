@@ -21,7 +21,13 @@ function row(y1, y2) {
   if (y2 === undefined) {
     return new Group($('.row-' + y1));
   } else {
-    // TODO
+    if (y2 < y1)
+      [y1, y2] = [y2, y1]
+    var selection = $('.row-' + y1);
+    for (let i = y1+1; i < y2; i++) {
+      selection = selection.add('.row-' + i);
+    }
+    return new Group(selection);
   }
 }
 
@@ -33,7 +39,17 @@ function row(y1, y2) {
  *   Selects a single column at x1
  */
 function col(x1, x2) {
-  return new Group($('.col-' + x1));
+  if (x2 === undefined) {
+    return new Group($('.col-' + x1));
+  } else {
+    if (x2 < x1)
+      [x1, x2] = [x2, x1]
+    var selection = $('.col-' + x1);
+    for (let i = x1+1; i < x2; i++) {
+      selection = selection.add('.col-' + i);
+    }
+    return new Group(selection);
+  }
 }
 
 /*
@@ -45,6 +61,32 @@ function cell(x, y) {
 
 var Group = function(cells) {
   this.cells = cells;
+}
+
+/**
+ * Gets the union of the selections
+ * returns this
+ */
+Group.prototype.add = function(group) {
+  this.cells = this.cells.filter(group.cells);
+  return this;
+}
+
+/**
+ * Removes the other group from this group
+ * returns this 
+ */
+Group.prototype.not = function(group) {
+  this.cells = this.cells.not(group.cells);
+  return this;
+}
+
+/**
+ * Removes all cells except those that are in both groups
+ */
+Group.prototype.intersect = function(group) {
+  this.cells = this.cells.filter(group.cells);
+  return this;
 }
 
 /**
@@ -106,10 +148,20 @@ Group.prototype.char = function(ch) {
 }
 
 /**
+ * Removes any text from the selection
+ * Returns this
+ */
+Group.prototype.clear = function() {
+  this.char('');
+  return this;
+}
+
+/**
  * If text is specified:
- *   Writes the text in each subsequent cell (pads end with
- *   white space if needed)
- *   returns this
+ *   Writes the text in each subsequent cell. Does not 
+ *   overwrite cells where the text does not reach
+ *   returns a new grouping which only contains the cells 
+ *   which something was written in
  * 
  * If text not specified:
  *   Gets the concatinated text of every cell. White space is
@@ -123,10 +175,14 @@ Group.prototype.text = function(content) {
     });
     return content;
   } else {
+    var selection = $();
     this.cells.each(function(i, cell) {
-      $(cell).text(content[i]);
+      var char = content[i]
+      $(cell).text(char);
+      if (char !== undefined)
+        selection = selection.add(cell);
     });
-    return this;
+    return new Group(selection);
   }
 }
 
@@ -139,10 +195,14 @@ Group.prototype.centerText = function(content) {
     return $.trim(this.text())
   } else {
     var offset = Math.floor((this.cells.length - content.length) / 2);
+    var textSelection = $();
     this.cells.each(function(i, cell) {
-      $(cell).text(content[i-offset]);
+      var char = content[i-offset];
+      $(cell).text(char);
+      if (char !== undefined)
+        textSelection = textSelection.add(cell);
     });
-    return this;
+    return new Group(textSelection);
   }
 }
 
@@ -156,18 +216,10 @@ var generateGrid = function() {
       cell.addClass('row-'+j);
       cell.addClass('col-'+i);
       cell.addClass('cell');
-      
-      cell.text(' ');
-      
       row.append(cell);
     }
     window.append(row);
   }
-  
-  grid().char('').color('white').back('#212');
-  row(5).centerText('Hello World!');
-  
-  col(8).char('B');
 }
 
 $(function() {

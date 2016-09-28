@@ -63,6 +63,7 @@ main {
   position: absolute;
   left: 16px;
   top: 16px;
+  z-index: 1;
 }
 .arrows::after {
   content: ' ';
