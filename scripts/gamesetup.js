@@ -270,6 +270,10 @@ var setupKeyCodes = function() {
       $('#right').trigger('click');
     if (event.key == 'Enter')
       $('#a').trigger('click');
+    if (event.key == 'a')
+      $('#a').trigger('click');
+    if (event.key == 'b')
+      $('#a').trigger('click');
   });
   
   $('#start').click(function() {
