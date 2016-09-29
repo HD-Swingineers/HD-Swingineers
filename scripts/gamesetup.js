@@ -273,7 +273,7 @@ var setupKeyCodes = function() {
     if (event.key == 'a')
       $('#a').trigger('click');
     if (event.key == 'b')
-      $('#a').trigger('click');
+      $('#b').trigger('click');
   });
   
   $('#start').click(function() {
