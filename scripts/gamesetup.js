@@ -1,4 +1,4 @@
-// This file asks as the link between the game core and 
+// This file acts as the link between the game core and 
 // the html/css code
 
 "use strict";
@@ -209,26 +209,32 @@ Group.prototype.centerText = function(content) {
   }
 }
 
+/** Adds a listener to the Up button */
 function onButtonUp(listener) {
   $('#up').click(listener);
 }
 
+/** Adds a listener to the Down button */
 function onButtonDown(listener) {
   $('#down').click(listener);
 }
 
+/** Adds a listener to the Right button */
 function onButtonRight(listener) {
   $('#right').click(listener);
 }
 
+/** Adds a listener to the Left button */
 function onButtonLeft(listener) {
   $('#left').click(listener);
 }
 
+/** Adds a listener to the A button */
 function onButtonA(listener) {
   $('#a').click(listener);
 }
 
+/** Adds a listener to the B button */
 function onButtonB(listener) {
   $('#b').click(listener);
 }
@@ -238,6 +244,7 @@ function onButtonB(listener) {
 //  $('#start').click(listener);
 //}
 
+/** Adds a listener to the select button */
 function onButtonSelect(listener) {
   $('#select').click(listener);
 }
@@ -283,6 +290,5 @@ var setupKeyCodes = function() {
 
 $(function() {
   generateGrid();
-  
   setupKeyCodes();
 });
