@@ -1,0 +1,11 @@
+# We are using Travis to run Node.js which powers Grunt
+# to run PhantomJS which runs JUnit to run our tests.
+
+language: node_js
+node_js:
+  - "0.10"
+  
+before_install:
+  - npm install grunt-cli -g
+
+script: grunt test
