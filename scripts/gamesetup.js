@@ -3,8 +3,8 @@
 
 "use strict";
 
-const WIDTH = 40;
-const HEIGHT = 30;
+var WIDTH = 40;
+var HEIGHT = 30;
 
 /**
  * Selects every cell
@@ -27,7 +27,7 @@ function row(y1, y2) {
     if (y2 < y1)
       [y1, y2] = [y2, y1]
     var selection = $('.row-' + y1);
-    for (let i = y1+1; i <= y2; i++) {
+    for (var i = y1+1; i <= y2; i++) {
       selection = selection.add('.row-' + i);
     }
     return new Group(selection);
@@ -48,7 +48,7 @@ function col(x1, x2) {
     if (x2 < x1)
       [x1, x2] = [x2, x1]
     var selection = $('.col-' + x1);
-    for (let i = x1+1; i <= x2; i++) {
+    for (var i = x1+1; i <= x2; i++) {
       selection = selection.add('.col-' + i);
     }
     return new Group(selection);
@@ -297,13 +297,14 @@ function onButtonSelect(listener) {
  */
 function writeText(x, y, text) {
 	var textArray;
-	if (text instanceof Array)
+	if (text.constructor == Array)
 		textArray = text;
 	else
 		textArray = text.split(/\n/);
 	var group = empty();
-	for (let line of textArray) {
-		let writting = row(y).not(col(0, x-1)).text(line);
+	for (var i = 0; i < textArray.length; i++) {
+	  var line = textArray[i];
+		var writting = row(y).not(col(0, x-1)).text(line);
 		group.add(writting);
 		y++;
 	}
@@ -335,10 +336,10 @@ function loadText(file, callback) {
 
 var generateGrid = function() {
   var window = $('#game-window');
-  for (let j = 0; j < HEIGHT; j++) {
-    let row = $('<div></div>'); 
-    for (let i = 0; i < WIDTH; i++) {
-      let cell = $('<span></span>');
+  for (var j = 0; j < HEIGHT; j++) {
+    var row = $('<div></div>'); 
+    for (var i = 0; i < WIDTH; i++) {
+      var cell = $('<span></span>');
       cell.attr('id', 'cell-' + i + 'x' + j);
       cell.addClass('row-'+j);
       cell.addClass('col-'+i);
