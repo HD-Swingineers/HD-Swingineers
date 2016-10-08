@@ -3,13 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>QUnit Example</title>
+  <title>WebSCII Tests</title>
   <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.0.1.css">
+  
+  <!-- load libraries -->
+  <script src="../scripts/jquery.js"></script>
+  <script src="https://code.jquery.com/qunit/qunit-2.0.1.js"></script>
+  
+  <!-- load our scripts -->
+  <script src="../scripts/gamesetup.js"></script>
+  
+  <!-- load the tests -->
+  <script src="sanity-test.js"></script>
+  <script src="gamesetup-test.js"></script>
 </head>
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
-  <script src="https://code.jquery.com/qunit/qunit-2.0.1.js"></script>
-  <script src="tests.js"></script>
+  
+  <!-- JavaScript framework needs this element to store it's data -->
+  <section id="game-window" style="display: none"></section>
 </body>
 </html>

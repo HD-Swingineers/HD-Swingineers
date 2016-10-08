@@ -15,7 +15,7 @@ function grid() {
 
 /**
  * If x2 specified:
- *   Selects all rows between y1 (inclusive) and y2 (exclusive)
+ *   Selects all rows between y1 (inclusive) and y2 (inclusive)
  * 
  * If y2 not specified:
  *   Selects a single row at y1
@@ -27,7 +27,7 @@ function row(y1, y2) {
     if (y2 < y1)
       [y1, y2] = [y2, y1]
     var selection = $('.row-' + y1);
-    for (let i = y1+1; i < y2; i++) {
+    for (let i = y1+1; i <= y2; i++) {
       selection = selection.add('.row-' + i);
     }
     return new Group(selection);
@@ -36,7 +36,7 @@ function row(y1, y2) {
 
 /**
  * If x2 specified:
- *   Selects all columns between x1 (inclusive) and x2 (exclusive)
+ *   Selects all columns between x1 (inclusive) and x2 (inclusive)
  * 
  * If x2 not specified:
  *   Selects a single column at x1
@@ -48,7 +48,7 @@ function col(x1, x2) {
     if (x2 < x1)
       [x1, x2] = [x2, x1]
     var selection = $('.col-' + x1);
-    for (let i = x1+1; i < x2; i++) {
+    for (let i = x1+1; i <= x2; i++) {
       selection = selection.add('.col-' + i);
     }
     return new Group(selection);
@@ -73,29 +73,62 @@ var Group = function(cells) {
 }
 
 /**
+ * Gets the number of cells in the group
+ */
+Group.prototype.size = function() {
+  return this.cells.length;
+}
+
+/**
+ * Gets the x coordinate (i.e the column) of the
+ * first cell in the group
+ */
+Group.prototype.x = function() {
+  return $(this.cells.first()).data('x');
+}
+
+/**
+ * Gets the x coordinate (i.e the column) of the
+ * first cell in the group
+ */
+Group.prototype.y = function() {
+  return $(this.cells.first()).data('y');
+}
+
+/**
+ * Loops through all cells in a group
+ * Function should be in the form of: function(cell, [x], [y])
+ */
+Group.prototype.each = function(func) {
+  this.cells.each(function() {
+    var ele = $(this);
+    var group = new Group(ele);
+    func(group, ele.data('x'), ele.data('y'));
+  });
+}
+
+/**
  * Gets the union of the selections
- * returns this
+ * returns a new grouping of the union
  */
 Group.prototype.add = function(group) {
-  this.cells = this.cells.add(group.cells);
-  return this;
+  return new Group(this.cells.add(group.cells));
 }
 
 /**
  * Removes the other group from this group
- * returns this 
+ * returns a new grouping without the other cells
  */
 Group.prototype.not = function(group) {
-  this.cells = this.cells.not(group.cells);
-  return this;
+  return new Group(this.cells.not(group.cells));
 }
 
 /**
  * Removes all cells except those that are in both groups
+ * Returns a new grouping with only the intersection
  */
 Group.prototype.intersect = function(group) {
-  this.cells = this.cells.filter(group.cells);
-  return this;
+  return new Group(this.cells.filter(group.cells));
 }
 
 /**
@@ -310,6 +343,8 @@ var generateGrid = function() {
       cell.addClass('row-'+j);
       cell.addClass('col-'+i);
       cell.addClass('cell');
+      cell.data('x', i);
+      cell.data('y', j);
       row.append(cell);
     }
     window.append(row);
