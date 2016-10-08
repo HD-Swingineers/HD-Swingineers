@@ -1,8 +1,7 @@
 # Swingineers
 [![Build status](https://travis-ci.org/HD-Swingineers/HD-Swingineers.svg?branch=master)](https://travis-ci.org/HD-Swingineers/HD-Swingineers)
 
-The swingineers HD project
+A set of ASCII web games for the Swingineers HD project.
 
-The code is live here:
-
+The games can be played live here:  
 <https://hd-swingineers.github.io/HD-Swingineers/>
