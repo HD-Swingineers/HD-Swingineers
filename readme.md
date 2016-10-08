@@ -5,3 +5,6 @@ A set of ASCII web games for the Swingineers HD project.
 
 The games can be played live here:  
 <https://hd-swingineers.github.io/HD-Swingineers/>
+
+The running tests can be viewed here:  
+<https://hd-swingineers.github.io/HD-Swingineers/tests>
