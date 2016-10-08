@@ -55,11 +55,17 @@ function col(x1, x2) {
   }
 }
 
-/*
+/**
  * Selects a single cell
  */
 function cell(x, y) {
   return new Group($('#cell-' + x + 'x' + y));
+}
+/**
+ * Gets an empty group
+ */
+function empty() {
+  return new Group($());
 }
 
 var Group = function(cells) {
@@ -71,7 +77,7 @@ var Group = function(cells) {
  * returns this
  */
 Group.prototype.add = function(group) {
-  this.cells = this.cells.filter(group.cells);
+  this.cells = this.cells.add(group.cells);
   return this;
 }
 
@@ -249,6 +255,51 @@ function onButtonSelect(listener) {
   $('#select').click(listener);
 }
 
+/**
+ * Writes the multiline text with the top left
+ * corner at position (x,y).
+ * The text can be either a string with linebreaks
+ * or an array of strings.
+ * Returns a group of the cells which text was written to
+ */
+function writeText(x, y, text) {
+	var textArray;
+	if (text instanceof Array)
+		textArray = text;
+	else
+		textArray = text.split(/\n/);
+	var group = empty();
+	for (let line of textArray) {
+		let writting = row(y).not(col(0, x-1)).text(line);
+		group.add(writting);
+		y++;
+	}
+	return group;
+}
+
+/**
+ * Fetches the raw text out of a file asyncrously.
+ * If there is an error reading the text file, an
+ * empty string will be passed to the callback.
+ * 
+ * The file path is relative to the HTML file loaded
+ * The callback should be a function which accepts a
+ * single string as an argument
+ * 
+ * returns nothing
+ */
+function loadText(file, callback) {
+	$.ajax({
+    url: file,
+    dataType: "text"
+  }).done(function(data) {
+    callback(data);
+  })
+  .fail(function() {
+    callback('');
+  });
+}
+
 var generateGrid = function() {
   var window = $('#game-window');
   for (let j = 0; j < HEIGHT; j++) {
@@ -277,9 +328,9 @@ var setupKeyCodes = function() {
       $('#right').trigger('click');
     if (event.key == 'Enter')
       $('#a').trigger('click');
-    if (event.key == 'a')
+    if (event.key == 'Shift')
       $('#a').trigger('click');
-    if (event.key == 'b')
+    if (event.key == 'Control')
       $('#b').trigger('click');
   });
   
