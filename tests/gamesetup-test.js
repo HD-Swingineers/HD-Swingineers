@@ -196,3 +196,14 @@ QUnit.test("Loop through each cell", function(assert) {
     index++;
   });
 });
+
+QUnit.test('Test write multiline', function(assert) {
+  var group = writeText(3, 5, 'Hello\nWorld');
+  assert.equal(cell(3,5).char(), 'H');
+  assert.equal(cell(4,5).char(), 'e');
+  
+  assert.equal(cell(3,6).char(), 'W');
+  assert.equal(cell(4,6).char(), 'o');
+  
+  assert.equal(group.size(), 10);
+});

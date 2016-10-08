@@ -305,7 +305,7 @@ function writeText(x, y, text) {
 	for (var i = 0; i < textArray.length; i++) {
 	  var line = textArray[i];
 		var writting = row(y).not(col(0, x-1)).text(line);
-		group.add(writting);
+		group = group.add(writting);
 		y++;
 	}
 	return group;
