@@ -212,12 +212,3 @@ QUnit.test('Backtrace detects finish', function(assert) {
   assert.deepEqual(p, new Point(1, 1));
   assert.equal(result, true);
 });
-
-QUnit.test('Write map to screen', function(assert) {
-  var map = stringToMap([
-    '#####',
-    '#   #',
-    '## ##',
-    '#####',
-  ]);
-});
