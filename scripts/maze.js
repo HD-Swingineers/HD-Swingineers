@@ -1,9 +1,9 @@
 "use strict";
 
 /**
- * All pacman things
+ * All maze things
  */
-var pacman = {
+var maze = {
 	
 	gen: {
 		/**
@@ -112,60 +112,145 @@ var pacman = {
     },
     
     backtrace: function(map, p) {
-      
+    
+      // takes a single step backwords
       function stepBack(map, p) {
-        map[p.x][p.y] = pacman.gen.State.PATH;
+        // check if we can branch
+        var dirs = maze.gen.validDirs(map, p);
+        if (dirs.length > 0)
+          return true;
         
-        var optionCount = 0;
-        var extraPaths = 0;
+        // flag this tile to fully explored
+        map[p.x][p.y] = maze.gen.State.PATH;
+        
+        // look for the old path
+        var oldPaths = 0;
         var xStep = 0;
         var yStep = 0;
         for (var i = -1; i <= 1; i++) {
           for (var j = -1; j <= 1; j++) {
-            if (Math.abs(i) == 1 && Math.abs(j)) {
+            if (i != 0 && j != 0) {
               continue;
             }
-            if (map[p.x+i][p.y+j] == pacman.gen.State.EMPTY) {
-              var dirs = pacman.gen.validDirs(map, p);
-              
-              if (dirs.length > 0) {
-                optionCount++;
-                xStep = i;
-                yStep = j;
-              }
+            if (map[p.x+i][p.y+j] == maze.gen.State.EMPTY) {
+              oldPaths++;
+              xStep = i;
+              yStep = j;
             }
           }
         }
         
-        console.log(optionCount);
-        console.log(p);
-        
-        if (optionCount == 1) {
+        if (oldPaths == 1) {
           p.add(xStep, yStep);
           return false;
-        } else if (optionCount > 1) {
-          return true;
         } else {
-          throw "Cannot start off a path";
+          // we've reached the very end
+          return true;
         }
       }
       
       while (!stepBack(map, p)) {};
       
+      // Return true when we reach the end 
+      return map[p.x][p.y] == maze.gen.State.PATH;
     },
     
-    generate: function() {
-      var map = this.newMap(WIDTH, HEIGHT);
-      var position = new Point(1, 1);
-      map[1][1] = this.State.EMPTY;
+    generate: function(width, height, start, end) {
+      var map = this.newMap(width, height);
+      var pos = new Point(start.x, start.y);
+      map[pos.x][pos.y] = this.State.EMPTY;
       
-      this.forgePath(map, position);
+      do {
+        this.forgePath(map, pos);
+        var fin = this.backtrace(map, pos);
+      } while(!fin);
+      
+      map[end.x][end.y] = maze.gen.State.PATH;
       return map;
     }
+	},
+	draw: function(map) {
+	  grid().clear().color('#aaa').back('#111').char('');
+	  function get(map, x, y) {
+	    if (x < 0 || y < 0 || x >= map.length || y >= map[x].length)
+	      return maze.gen.State.EMPTY;
+	    else
+	      return map[x][y];
+	  }
+	  
+	  function translate(map, x, y) {
+	    var value = get(map, x, y);
+	    if (value == maze.gen.State.PATH)
+	      return ' ';
+	    return '#';
+	  }
+	  
+	  grid().clear();
+	  
+	  var stringArray = [];
+	  for (var i = 0; i < map.length; i++) {
+	    for (var j = 0; j < map[i].length; j++) {
+	      var ch = translate(map, i, j);
+	      var str = stringArray[j];
+	      if (str == undefined) {
+	        str = '';
+	      }
+	      str += ch;
+	      stringArray[j] = str;
+	    }
+	  }
+	  
+	  for (var i in stringArray) {
+	    var line = stringArray[i];
+	    row(i).centerText(line);
+	  }
 	}
 }
 
 
 $(function() {
-	grid().clear().color('white').back('#111').char('');	
+	var start = new Point(Math.floor(WIDTH/2), 1);
+	var end = new Point(start.x, HEIGHT-2);
+	
+	var map;
+	var player;
+	generate();
+	
+	function generate() {
+	  map = maze.gen.generate(WIDTH, HEIGHT, end, start);
+	  
+	  player = new Point(start.x, start.y);
+	  maze.draw(map, player, end);
+	  movePlayer(0, 0);
+	  cell(end.x, end.y).char('F').color('red');
+	}
+	
+	function movePlayer(xStep, yStep) {
+	  var xNew = player.x + xStep;
+	  var yNew = player.y + yStep;
+	  if (end.x == xNew && end.y == yNew) {
+	    generate();
+	    return;
+	  }
+	  if (map[xNew][yNew] == maze.gen.State.SOLID) {
+	    return;
+	  } else {
+	    cell(player.x, player.y).char(' ');
+	    player.set(xNew, yNew);
+	    cell(player.x, player.y).char('@').color('red');
+	  }
+	}
+	
+	onButtonLeft(function() {
+	  movePlayer(-1, 0);
+	});
+	onButtonRight(function() {
+	  movePlayer(1, 0);
+	});
+	onButtonDown(function() {
+	  movePlayer(0, 1);
+	});
+	onButtonUp(function() {
+	  movePlayer(0, -1);
+	});
 });

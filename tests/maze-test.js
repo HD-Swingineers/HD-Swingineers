@@ -213,8 +213,11 @@ QUnit.test('Backtrace detects finish', function(assert) {
   assert.equal(result, true);
 });
 
-QUnit.test('Draw map', function(assert) {
-  var map = maze.gen.generate();
-  console.log(mapToString(map));
-  assert.ok(true);
+QUnit.test('Write map to screen', function(assert) {
+  var map = stringToMap([
+    '#####',
+    '#   #',
+    '## ##',
+    '#####',
+  ]);
 });
