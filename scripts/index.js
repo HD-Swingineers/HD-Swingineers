@@ -3,7 +3,7 @@ const options = [
   { name: 'NOUGHTS AND CROSSES', page: 'GameView.html' },
   { name: 'HANGMAN',             page: 'Hangman.html' },
   { name: 'TEXT ADVENTURE',      page: 'GameView.html' },
-  { name: 'MAZE GAME',           page: 'GameView.html' },
+  { name: 'MAZE GAME',           page: 'maze.html' },
   { name: 'HIGH SCORES',         page: 'Highscores.html' },
 ];
 
