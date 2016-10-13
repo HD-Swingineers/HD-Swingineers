@@ -90,6 +90,16 @@ main {
 .arrows button:active {
   background: #111;
 }
+
+#home {
+      margin-left: auto;
+      margin-right: auto;
+      display:inline-block;
+      background-color: #101;
+      padding: 0;
+    }
+
+
 #left {
   top: 32px;
   left: 0;
