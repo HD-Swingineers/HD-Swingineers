@@ -8,15 +8,33 @@ permalink: /404.html
     <meta name="description" content="A ASCII art game" />
     <meta name="keywords" content="ASCII, game" />
     <meta name="author" content="Swingineers" />
-    <title>Swingineers Game</title>
+    <title>Swingineers - 404</title>
     
     <link href="styles/style.css" rel="stylesheet" />
     <script src="scripts/jquery.js"></script>
     <script src="scripts/gamesetup.js"></script>
     <script>
       $(function() {
-      row(12).centerText('YE BE LOST');
-    });
+        grid().clear().color('white').back('#111');
+        var line = 6;
+        row(line++).centerText('====================================').color('red');
+        line++;
+        row(line++).centerText('      WWW      WWWWWW        WWW    ').color('white');
+        row(line++).centerText('     WWWW     WWW  WWW      WWWW    ').color('yellow');
+        row(line++).centerText('    WW WW    WWW    WWW    WW WW    ').color('yellow');
+        row(line++).centerText('   WW  WW    WW      WW   WW  WW    ').color('yellow');
+        row(line++).centerText('  WW   WW    WW      WW  WW   WW    ').color('yellow');
+        row(line++).centerText(' WWWWWWWWWWW WW      WW WWWWWWWWWWW ').color('orange');
+        row(line++).centerText(' WWWWWWWWW   WWW    WWW WWWWWWWWW   ').color('orange');
+        row(line++).centerText('       WW     WWW  WWW       WW     ').color('red');
+        row(line++).centerText('       WW      WWWWWW        WW     ').color('red');
+        line++;
+        row(line++).centerText('====================================').color('red');
+        line++;
+        line++;
+        line++;
+        row(line++).centerText('Oh no!');
+      });
     </script>
   </head>
   
