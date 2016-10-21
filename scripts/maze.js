@@ -210,14 +210,14 @@ var maze = {
 
 $(function() {
 	var start = new Point(Math.floor(WIDTH/2), 1);
-	var end = new Point(start.x, HEIGHT-2);
+	var end = new Point(start.x, HEIGHT-4);
 	
 	var map;
 	var player;
 	generate();
 	
 	function generate() {
-	  map = maze.gen.generate(WIDTH, HEIGHT, end, start);
+	  map = maze.gen.generate(WIDTH, HEIGHT-2, end, start);
 	  
 	  player = new Point(start.x, start.y);
 	  maze.draw(map, player, end);
@@ -225,11 +225,21 @@ $(function() {
 	  cell(end.x, end.y).char('F').color('red');
 	}
 	
+	var score = 100;
+	var scoreRow = row(HEIGHT-1);
+	scoreRow.color('white');
+	function counter() {
+	  score--;
+	  scoreRow.centerText('SCORE: ' + score);
+	  setTimeout(counter, 1000);
+	}
+	counter();
+	
 	function movePlayer(xStep, yStep) {
 	  var xNew = player.x + xStep;
 	  var yNew = player.y + yStep;
 	  if (end.x == xNew && end.y == yNew) {
-	    generate();
+	    submitHighScore(GameID.MazeGame, score);
 	    return;
 	  }
 	  if (map[xNew][yNew] == maze.gen.State.SOLID) {

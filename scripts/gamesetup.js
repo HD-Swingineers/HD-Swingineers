@@ -6,6 +6,8 @@
 var WIDTH = 40;
 var HEIGHT = 30;
 
+var _useShift = true;
+
 /**
  * The various games that can be submitted to highscores
  */
@@ -31,9 +33,9 @@ var GameID = {
  *   the player got
  * - `gameid` should be a GameID 
  */
-function submitScore(gameid, score) {
-  sessionStorage.setItem('last-score', score);
-  sessionStorage.setItem('last-game', gameid);
+function submitHighScore(gameid, score) {
+  localStorage.setItem('input-score', score);
+  localStorage.setItem('input-game', gameid);
   window.location = 'highscore-submit.html';
 }
 
@@ -410,16 +412,23 @@ var setupKeyCodes = function() {
       $('#right').trigger('click');
     if (event.key == 'Enter')
       $('#a').trigger('click');
-    if (event.key == 'Shift')
-      $('#a').trigger('click');
-    if (event.key == 'Control')
-      $('#b').trigger('click');
+    if (_useShift) {
+      if (event.key == 'Shift')
+        $('#a').trigger('click');
+      if (event.key == 'Control')
+        $('#b').trigger('click');
+    }
   });
   
   $('#start').click(function() {
     window.location.href = 'index.html';
   });
 }
+
+function disableShiftAndControl() {
+  _useShift = false;
+}
+
 
 $(function() {
   generateGrid();
