@@ -7,6 +7,37 @@ var WIDTH = 40;
 var HEIGHT = 30;
 
 /**
+ * The various games that can be submitted to highscores
+ */
+var GameID = {
+  Nacs:          'nc',
+  HangMan:       'hm',
+  TextAdventure: 'ta',
+  MazeGame:      'mg',
+  Pacman:        'pc',
+  Snake:         'sk'
+}
+
+/**
+ * Submits a highscore. If the score is a highscore,
+ * then the player will be redirected to the submit
+ * highscore page.
+ *
+ * If the score is not a highscore, then the player
+ * will be redirected to the highscore screen for their
+ * game with their score displayed underneath.
+ *
+ * - `score` should be an integer representing what score
+ *   the player got
+ * - `gameid` should be a GameID 
+ */
+function submitScore(gameid, score) {
+  sessionStorage.setItem('last-score', score);
+  sessionStorage.setItem('last-game', gameid);
+  window.location = 'highscore-submit.html';
+}
+
+/**
  * Selects every cell
  */
 function grid() {
@@ -218,6 +249,7 @@ Group.prototype.text = function(content) {
     return content;
   } else {
     var selection = $();
+    content = content.toString();
     this.cells.each(function(i, cell) {
       var char = content[i]
       $(cell).text(char);
@@ -236,6 +268,7 @@ Group.prototype.centerText = function(content) {
   if (content === undefined) {
     return $.trim(this.text())
   } else {
+    content = content.toString();
     var offset = Math.floor((this.cells.length - content.length) / 2);
     var textSelection = $();
     this.cells.each(function(i, cell) {
@@ -276,6 +309,12 @@ function onButtonA(listener) {
 /** Adds a listener to the B button */
 function onButtonB(listener) {
   $('#b').click(listener);
+}
+
+function onKeyPressed(listener) {
+  $(document).keydown(function(event) {
+    listener(event.key);
+  });
 }
 
 /* reserved for going to the main menu */
@@ -334,6 +373,9 @@ function loadText(file, callback) {
   });
 }
 
+/**
+ * Internal method - Generates the initial grid;
+ */
 var generateGrid = function() {
   var window = $('#game-window');
   for (var j = 0; j < HEIGHT; j++) {
@@ -352,6 +394,10 @@ var generateGrid = function() {
   }
 }
 
+/**
+ * Internal method: Sets up the 
+ * key codes for the game
+ */
 var setupKeyCodes = function() {
   $(document).keydown(function(event) {
     if (event.key == 'ArrowUp')

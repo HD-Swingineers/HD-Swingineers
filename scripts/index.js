@@ -4,7 +4,7 @@ const options = [
   { name: 'HANGMAN',             page: 'Hangman.html' },
   { name: 'TEXT ADVENTURE',      page: 'GameView.html' },
   { name: 'MAZE GAME',           page: 'maze.html' },
-  { name: 'HIGH SCORES',         page: 'Highscores.html' },
+  { name: 'HIGH SCORES',         page: 'highscores.html' },
 ];
 
 const OPTIONS_START = 16;
