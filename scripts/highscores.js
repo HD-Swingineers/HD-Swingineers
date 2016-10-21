@@ -23,6 +23,7 @@ var _showingIndex = 0;
  */
 var showIndex = function(index) {
   // loop the id around
+  index = parseInt(index);
   if (index < 0)
     index += _order.length;
   if (index >= _order.length)

@@ -19,6 +19,7 @@ var inputName = function(gameid, score) {
   writeText(8, line, 'Enter Name:');
   
   var name = '';
+  disableShiftAndControl();
   onKeyPressed(function(key) {
     if (key == 'Backspace')
       name = name.slice(0, -1);
@@ -27,7 +28,6 @@ var inputName = function(gameid, score) {
     else
       return;
     writeText(20, line, name+'_   ').color('yellow');
-    
   });
   
   onButtonA(function() {
@@ -37,8 +37,8 @@ var inputName = function(gameid, score) {
 }
 
 $(function() {
-  var score = '120';//localStorage.getItem('input-score');
-  var game = 'nc';//localStorage.getItem('input-game');  
+  var score = localStorage.getItem('input-score');
+  var game = localStorage.getItem('input-game');  
   localStorage.removeItem('last-place-'+game);
   localStorage.removeItem('input-score');
   localStorage.removeItem('input-game');
@@ -47,10 +47,7 @@ $(function() {
   
   var scores = getHighscores(game);
   var madeIt = scores.length < MAX_SCORES;
-  console.log(scores);
   for (var i in scores) {
-    console.log(score + ' > ' + scores[i].score)
-    console.log(score > scores[i].score);
     if (scores[i].score < score) {
       madeIt = true;
       break;

@@ -22,7 +22,6 @@ var MAX_SCORES = 5;
  * Writes a score to storage
  */
 var submitScore = function(gameid, name, score) {
-  console.log(gameid + ' ' + name + ' ' + score);
   var scores = getHighscores(gameid);
   
   // determine place in the scores
@@ -71,6 +70,14 @@ var getHighscores = function(gameid) {
     index++;
     name = localStorage.getItem('name-'+gameid+'-'+index);
   }
+  
+  while (scores.length < MAX_SCORES) {
+    scores.push({
+      'name': 'nobody',
+      'score': 0
+    });
+  }
+  
   return scores;
 }
 
@@ -79,8 +86,8 @@ var getHighscores = function(gameid) {
  */
 var display = function(gameid) { 
   grid().clear();
-  drawBackgroundGraphic();
   
+  drawBackgroundGraphic();
   var gameName = _names[gameid];
   row(4).centerText('============================').color('#F40');
   row(6).centerText(gameName).color('yellow');
@@ -114,6 +121,7 @@ var display = function(gameid) {
     writeText(17, line, score.toString()).color(color);
     writeText(21, line, name.toUpperCase()).color(color);
   }
+  
   row(26).centerText('============================').color('#F40');
 }
 
