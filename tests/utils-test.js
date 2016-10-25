@@ -7,5 +7,4 @@ QUnit.test('direction flipping', function(assert) {
   
   assert.equal(result1, Direction.RIGHT);
   assert.equal(result2, Direction.RIGHT | Direction.DOWN);
-  assert.ok(false);
 });

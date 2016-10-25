@@ -5,12 +5,29 @@
  */
 var pacman = {
   
-  Mob: function() {
+  margin: 16,
+  
+  Mob: function(char = '@', color = 'pink') {
     this.pos = new Point(0,0);
     this.dir = Direction.LEFT;
+    this.char = char;
+    this.color = color;
+    
+    this.update = function(map) {
+      this.pos.step(map);
+    }
+  },
+  
+  Game: function() {
+    this.score = 0;
+    this.player = new pacman.Mob('o', 'yellow');
+    this.ghosts = [new pacman.Mob('M', 'blue')];
   },
   
   ai: {
+    /**
+     * List the valid directions that a ghost could move in
+     */
     listDirs: function(map, ghost) {
       var x = ghost.pos.x;
       var y = ghost.pos.y;
@@ -31,9 +48,21 @@ var pacman = {
           dirs.splice(backIndex, 1);
       }
       return dirs;
+    },
+    
+    /**
+     * Updates what the ghost should do on the next move
+     */
+    think: function(map, ghost) {
+      var dirs = listDirs(map, ghost);
+      ghost.dir = dirs[Math.floor(Math.random()*dirs.length)];
     }
   },
   
+  /**
+   * Mirrors a map. Overlap is the amount of columns
+   * along the right of the map to remove
+   */
 	mirror: function(map, overlap) {
     map.splice(-overlap, overlap);
     var oldwidth = map.length;
@@ -44,6 +73,9 @@ var pacman = {
     }
   },
   
+  /**
+   * Removes any deadends from the map
+   */
   removeDeadEnds: function(map) {
     function isSolid(x, y) {
       if (x < 0 || y < 0 || x >= map.length || y >= map[x].length)
@@ -96,7 +128,7 @@ var pacman = {
     }
   },
   
-  draw: function(map) {
+  drawMap: function(map) {
 	  /**
      * Converts the state of a tile into a character
      */
@@ -106,7 +138,7 @@ var pacman = {
 	    return '#';
 	  }
 	  
-    grid().clear().color('#aaa').back('#111').char('');    
+    grid().clear().color('#3af').back('#111').char('');    
 	  var stringArray = [];
 	  for (var i = 0; i < map.length; i++) {
 	    for (var j = 0; j < map[i].length; j++) {
@@ -122,24 +154,71 @@ var pacman = {
 	  
 	  for (var i in stringArray) {
 	    var line = stringArray[i];
-	    row(i).centerText(line);
+	    row(i).text(line);
 	  }
   },
   
-  updateMob: function(mob) {
-    mob.pos.step(mob.dir);
+  drawScore: function(game) {
+    var region = col(WIDTH-pacman.margin, WIDTH);
+    var line = 3;
+    row(line++).intersect(region).centerText('PACMAN').color('yellow');
+    row(line++).intersect(region).centerText('----------').color('white');
+    line++;
+    line++;
+    row(line++).intersect(region).text('  Score:').color('white');
+    line++;
+    row(line++).intersect(region).centerText('0000').color('yellow');
+    line++;
+    line++;
+    row(line++).intersect(region).text('  Lives:').color('white');
+    line++;
+    row(line++).intersect(region).centerText('c c c').color('yellow');
+    line++;
+    line++;
+    row(line++).intersect(region).text('  Highscore:').color('white');
+    line++;
+    row(line++).intersect(region).centerText('  1924:').color('yellow');
+    for (var i = WIDTH-pacman.margin; i < WIDTH; i++) {
+      for (var j = 0; j < HEIGHT; j++) {
+        if (i == WIDTH-pacman.margin || i == WIDTH-1 || j == 0 || j == HEIGHT-1)
+          cell(i, j).char('*').color('white');
+      }
+    }
   },
-  
+    
   generate: function(width, height) {
-    var startWidth = Math.floor(width/2+3);
+    var overlap = 3;
+    var startWidth = Math.floor(width/2+overlap);
+    var xCenter = Math.floor(width/2);
+    var yCenter = Math.floor(height/2);
     var map = mazegen.generate(startWidth, height, new Point(1, 1), new Point(1, height-2));
     pacman.removeDeadEnds(map);
-    pacman.mirror(map, 3);
-    pacman.draw(map);
+    for (var i = -3; i <= 0; i++) {
+      for (var j = -2; j <= 2; j++) {
+        if (i == -3 || j == -2 || j == 2) {
+          map[xCenter+i][yCenter+j] = mazegen.State.SOLID;
+          console.log( i + ' ' + j);
+        } else {
+          map[xCenter+i][yCenter+j] = mazegen.State.PATH;
+          console.log( i + '-' + j);
+        }
+      }
+    }
+    pacman.mirror(map, overlap);
     return map;
   }
 };
 
 $(function() {
-  pacman.generate(WIDTH, HEIGHT);
+  var map = pacman.generate(WIDTH-pacman.margin, HEIGHT);
+  pacman.drawMap(map);
+  pacman.drawScore();
+  
+  var player = new Mob();
+  
+  update();
+  
+  function update() {
+    setTimeout(update, 500); 
+  }
 });

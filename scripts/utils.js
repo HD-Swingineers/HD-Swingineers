@@ -54,21 +54,19 @@ var Direction = {
    * Revereses the direction
    */
   flip: function(dir) {
-    if (dir | Direction.LEFT) {
+    if (dir & Direction.LEFT) {
       dir &= ~Direction.LEFT;
       dir ^= Direction.RIGHT;
-    }
-    if (dir | Direction.RIGHT) {
+    } else if (dir & Direction.RIGHT) {
       dir &= ~Direction.RIGHT;
       dir ^= Direction.LEFT;
     }
-    if (dir | Direction.UP) {
+    if (dir & Direction.UP) {
       dir &= ~Direction.UP;
-      dir ^= Direction.DOWN;
-    }
-    if (dir | Direction.DOWN) {
+      dir |= Direction.DOWN;
+    } else if (dir & Direction.DOWN) {
       dir &= ~Direction.DOWN;
-      dir ^= Direction.UP;
+      dir |= Direction.UP;
     }
     return dir;
   }
