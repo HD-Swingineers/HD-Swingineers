@@ -5,16 +5,17 @@ const options = [
   { name: 'TEXT ADVENTURE',      page: 'GameView.html' },
   { name: 'MAZE GAME',           page: 'maze.html' },
   { name: 'HIGH SCORES',         page: 'Highscores.html' },
+  { name: 'PACMAN',              page: 'pacman.html' },
 ];
 
-const OPTIONS_START = 16;
+const OPTIONS_START = 14;
 
 var selected = 0;
 
 var displayMenu = function() {
   grid().clear().color('white');
   
-  var line = 3;
+  var line = 2;
   row(line++).centerText('======================================').color('red');
   line++;
   row(line++).centerText(' #   #  #### ####    ####   ###  ## ##').color('white');
