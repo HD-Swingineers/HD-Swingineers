@@ -34,6 +34,8 @@ var GameID = {
  * - `gameid` should be a GameID 
  */
 function submitHighScore(gameid, score) {
+  if (!gameid)
+    throw "undefined game id!";
   localStorage.setItem('input-score', score);
   localStorage.setItem('input-game', gameid);
   window.location = 'highscore-submit.html';
