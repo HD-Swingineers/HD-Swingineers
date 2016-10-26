@@ -89,7 +89,7 @@ var pacman = {
    * refresh of the screen will be done. This is only
    * needed the first time the map is drawn.
    */
-  drawMap: function(map, full = false) {
+  drawMap: function(map, full) {
     // nothing should change in the map
     // mobs are responsible for cleaning up after themselves
     if (!full)
@@ -134,7 +134,7 @@ var pacman = {
    * Draws the score panel on the side. Set `full`
    * to true for the inital draw only  
    */
-  drawScore: function(game, full = false) {
+  drawScore: function(game, full) {
     var score = ('00000' + game.score).substr(-5,5);
       var lives = ''
     for (var i = 0; i < game.lives; i++) {
@@ -252,7 +252,7 @@ pacman.GameState = function(width, height) {
 /**
  * Draws the entire game to the world
  */
-pacman.GameState.prototype.draw = function(full = false) {
+pacman.GameState.prototype.draw = function(full) {
   pacman.drawMap(this.map, full);
   pacman.drawScore(this, full);
   
@@ -290,10 +290,8 @@ pacman.GameState.prototype.update = function() {
   
   // update collisions
   var playerPos = this.player.pos;
-  console.log(playerPos);
   for (var i = 0; i < this.ghosts.length; i++) {
     var ghostPos = this.ghosts[i].pos;
-    console.log(ghostPos.toString() + ' ' + playerPos.toString());
     if (ghostPos.x == playerPos.x && ghostPos.y == playerPos.y) {
       this.lives--;
       if (this.lives == 0)
@@ -446,8 +444,7 @@ $(function() {
   
   function update() {
     game.update();
-    game.draw();
-    console.log('update')
+    game.draw(false);
     setTimeout(update, 200); 
   }
 });
