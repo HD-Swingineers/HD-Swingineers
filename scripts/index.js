@@ -4,17 +4,18 @@ const options = [
   { name: 'HANGMAN',             page: 'Hangman.html' },
   { name: 'TEXT ADVENTURE',      page: 'GameView.html' },
   { name: 'MAZE GAME',           page: 'maze.html' },
-  { name: 'HIGH SCORES',         page: 'highscores.html' },
+  { name: 'PACMAN',              page: 'pacman.html' },
+  { name: 'HIGH SCORES',         page: 'Highscores.html' },
 ];
 
-const OPTIONS_START = 16;
+const OPTIONS_START = 14;
 
 var selected = 0;
 
 var displayMenu = function() {
   grid().clear().color('white');
   
-  var line = 3;
+  var line = 2;
   row(line++).centerText('======================================').color('red');
   line++;
   row(line++).centerText(' #   #  #### ####    ####   ###  ## ##').color('white');

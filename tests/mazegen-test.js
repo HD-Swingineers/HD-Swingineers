@@ -10,13 +10,13 @@ var stringToMap = function(stringArray) {
 			var value;
 			switch (ch) {
 				case '#': 
-					value = maze.gen.State.SOLID; break;
+					value = mazegen.State.SOLID; break;
 				case '-': 
-					value = maze.gen.State.PATH; break;
+					value = mazegen.State.PATH; break;
 				case ' ':
         case '~':
         case '@': // position of interest
-					value = maze.gen.State.EMPTY; break;
+					value = mazegen.State.EMPTY; break;
 				default:
 					console.log('unknown value \'' + ch + '\'');
 			};
@@ -41,11 +41,11 @@ var mapToString = function(m) {
         var value = map[i][j];
         var ch;
         switch (value) {
-          case maze.gen.State.SOLID: 
+          case mazegen.State.SOLID: 
             ch = '#'; break;
-          case maze.gen.State.EMPTY:
+          case mazegen.State.EMPTY:
             ch = ' '; break;
-          case maze.gen.State.PATH:
+          case mazegen.State.PATH:
             ch = '-'; break;
           default:
             console.log('unknown value \'' + value + '\'');
@@ -84,12 +84,12 @@ QUnit.test('StringToMap works', function(assert) {
 		' -'
 	]);
 	
-	assert.equal(map[0][0], maze.gen.State.SOLID);
-	assert.equal(map[1][0], maze.gen.State.EMPTY);
-	assert.equal(map[0][1], maze.gen.State.PATH);
-	assert.equal(map[1][1], maze.gen.State.SOLID);
-	assert.equal(map[0][2], maze.gen.State.EMPTY);
-	assert.equal(map[1][2], maze.gen.State.PATH);
+	assert.equal(map[0][0], mazegen.State.SOLID);
+	assert.equal(map[1][0], mazegen.State.EMPTY);
+	assert.equal(map[0][1], mazegen.State.PATH);
+	assert.equal(map[1][1], mazegen.State.SOLID);
+	assert.equal(map[0][2], mazegen.State.EMPTY);
+	assert.equal(map[1][2], mazegen.State.PATH);
 });
 
 QUnit.test('MapToString works', function(assert) {
@@ -115,7 +115,7 @@ QUnit.test('All empty directions can be valid gen directions', function(assert) 
     '#####'
 	]);
 	
-	var result = maze.gen.validDirs(map, new Point(2, 2));
+	var result = mazegen.validDirs(map, new Point(2, 2));
 	
 	assert.ok(result.indexOf(Direction.UP) != -1);
 	assert.ok(result.indexOf(Direction.DOWN) != -1);
@@ -132,7 +132,7 @@ QUnit.test('Valid gen cannot go next to another path', function(assert) {
     '## ##'
 	]);
   
-	var result = maze.gen.validDirs(map, new Point(2, 2));
+	var result = mazegen.validDirs(map, new Point(2, 2));
 	
 	assert.ok(-1 == result.indexOf(Direction.UP));
 	assert.ok(-1 == result.indexOf(Direction.RIGHT));
@@ -149,7 +149,7 @@ QUnit.test('Valid gen cannot go onto another path', function(assert) {
     '#####'
 	]);
 	
-	var result = maze.gen.validDirs(map, new Point(2, 2));
+	var result = mazegen.validDirs(map, new Point(2, 2));
 	
 	assert.ok(-1 == result.indexOf(Direction.UP));
 	assert.ok(-1 != result.indexOf(Direction.RIGHT));
@@ -167,9 +167,9 @@ QUnit.test('Advance goes in the correct direction', function(assert) {
   ]);
   
   var p = new Point(2, 2);
-  maze.gen.advance(map, p, Direction.LEFT);
+  mazegen.advance(map, p, Direction.LEFT);
   
-  assert.ok(map[1][2] == maze.gen.State.EMPTY);
+  assert.ok(map[1][2] == mazegen.State.EMPTY);
   assert.deepEqual(p, new Point(1,2));
 });
 
@@ -182,13 +182,13 @@ QUnit.test('Backtrace stops at possible brach', function(assert) {
     '## ##'
   ]);
   var p = new Point(1, 1);
-  var result = maze.gen.backtrace(map, p);
+  var result = mazegen.backtrace(map, p);
   
-  assert.equal(map[1][1], maze.gen.State.PATH);
-  assert.equal(map[2][1], maze.gen.State.PATH);
-  assert.equal(map[3][1], maze.gen.State.PATH); // unchanged
-  assert.equal(map[2][2], maze.gen.State.PATH);
-  assert.equal(map[2][3], maze.gen.State.EMPTY);
+  assert.equal(map[1][1], mazegen.State.PATH);
+  assert.equal(map[2][1], mazegen.State.PATH);
+  assert.equal(map[3][1], mazegen.State.PATH); // unchanged
+  assert.equal(map[2][2], mazegen.State.PATH);
+  assert.equal(map[2][3], mazegen.State.EMPTY);
   
   assert.deepEqual(p, new Point(2, 3));
   assert.equal(result, false);
@@ -202,12 +202,12 @@ QUnit.test('Backtrace detects finish', function(assert) {
     '#####',
   ]);
   var p = new Point(2, 2);
-  var result = maze.gen.backtrace(map, p);
+  var result = mazegen.backtrace(map, p);
   
-  assert.equal(map[1][1], maze.gen.State.PATH);
-  assert.equal(map[2][1], maze.gen.State.PATH);
-  assert.equal(map[3][1], maze.gen.State.PATH);
-  assert.equal(map[2][2], maze.gen.State.PATH);
+  assert.equal(map[1][1], mazegen.State.PATH);
+  assert.equal(map[2][1], mazegen.State.PATH);
+  assert.equal(map[3][1], mazegen.State.PATH);
+  assert.equal(map[2][2], mazegen.State.PATH);
   
   assert.deepEqual(p, new Point(1, 1));
   assert.equal(result, true);
