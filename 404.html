@@ -1,0 +1,64 @@
+---
+permalink: /404.html
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="A ASCII art game" />
+    <meta name="keywords" content="ASCII, game" />
+    <meta name="author" content="Swingineers" />
+    <title>Swingineers - 404</title>
+    
+    <link href="styles/style.css" rel="stylesheet" />
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/gamesetup.js"></script>
+    <script>
+      $(function() {
+        grid().clear().color('white').back('#111');
+        var line = 6;
+        row(line++).centerText('====================================').color('red');
+        line++;
+        row(line++).centerText('      WWW      WWWWWW        WWW    ').color('white');
+        row(line++).centerText('     WWWW     WWW  WWW      WWWW    ').color('yellow');
+        row(line++).centerText('    WW WW    WWW    WWW    WW WW    ').color('yellow');
+        row(line++).centerText('   WW  WW    WW      WW   WW  WW    ').color('yellow');
+        row(line++).centerText('  WW   WW    WW      WW  WW   WW    ').color('yellow');
+        row(line++).centerText(' WWWWWWWWWWW WW      WW WWWWWWWWWWW ').color('orange');
+        row(line++).centerText(' WWWWWWWWW   WWW    WWW WWWWWWWWW   ').color('orange');
+        row(line++).centerText('       WW     WWW  WWW       WW     ').color('red');
+        row(line++).centerText('       WW      WWWWWW        WW     ').color('red');
+        line++;
+        row(line++).centerText('====================================').color('red');
+        line++;
+        line++;
+        line++;
+        row(line++).centerText('Oh no!');
+      });
+    </script>
+  </head>
+  
+  <body>
+    <main>
+      <section id="game-window">
+        <!-- JavaScript will generate content here -->
+      </section>
+      <section class="controlls">
+        <div class="arrows">
+          <button id="up">&uarr;</button>
+          <button id="down">&darr;</button>
+          <button id="left">&larr;</button>
+          <button id="right">&rarr;</button>
+        </div>
+        <div class="options">
+          <button id="start">Start</button>
+          <button id="select">Select</button>
+        </div>
+        <div class="actions">
+          <button id="a">A</button>
+          <button id="b">B</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
