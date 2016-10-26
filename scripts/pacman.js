@@ -310,7 +310,7 @@ pacman.GameState.prototype.update = function() {
 /**
  * Represents some moving thing in the game
  */
-pacman.Mob = function(char = '@', color = 'green') {
+pacman.Mob = function(char, color) {
   this.pos = new Point(1,1);
   this.dir = Direction.LEFT;
   this.char = char;
