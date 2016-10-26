@@ -297,7 +297,7 @@ pacman.GameState.prototype.update = function() {
     if (ghostPos.x == playerPos.x && ghostPos.y == playerPos.y) {
       this.lives--;
       if (this.lives == 0)
-        console.log('game over!');
+        submitHighScore(GameID.Pacman, this.score);
       else
         this.reset();
       return;
