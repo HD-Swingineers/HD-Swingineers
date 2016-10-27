@@ -5,7 +5,7 @@ const options = [
   { name: 'TEXT ADVENTURE',      page: 'GameView.html' },
   { name: 'MAZE GAME',           page: 'maze.html' },
   { name: 'PACMAN',              page: 'pacman.html' },
-  { name: 'HIGH SCORES',         page: 'Highscores.html' },
+  { name: 'HIGH SCORES',         page: 'highscores.html' },
 ];
 
 const OPTIONS_START = 14;
