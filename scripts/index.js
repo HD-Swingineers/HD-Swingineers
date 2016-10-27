@@ -1,7 +1,7 @@
 // a list of all games
 const options = [
-  { name: 'NOUGHTS AND CROSSES', page: 'GameView.html' },
-  { name: 'HANGMAN',             page: 'Hangman.html' },
+  { name: 'NOUGHTS AND CROSSES', page: 'noughts&crosses.html' },
+  { name: 'SNAKE',             page: 'snake.html' },
   { name: 'MAZE GAME',           page: 'maze.html' },
   { name: 'PACMAN',              page: 'pacman.html' },
   { name: 'HIGH SCORES',         page: 'highscores.html' },
@@ -71,5 +71,5 @@ $(function() {
 
   onButtonA(function() {
     play(selected);
-});
+	});
 });

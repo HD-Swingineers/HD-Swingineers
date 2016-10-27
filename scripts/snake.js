@@ -1,8 +1,6 @@
 
-
-var mycanvas = document.getElementById('mycanvas');
+var mycanvas = document.getElementById('game-window');
 var ctx = mycanvas.getContext('2d');
-var snakeSize = 10; 
 var w = 640;
 var h = 480;
 var score = 0;
@@ -10,6 +8,10 @@ var gameSpeed = 100;
 var snake;
 var snakeSize = 10;
 var food;
+
+
+//event driven function suck as
+//key presses and onscreen buttons
 
 (function () {
 
@@ -20,9 +22,8 @@ var food;
         switch(keyCode) {
 
         case 13: 
-        drawModule.init()
-        gameloop = clearInterval(gameloop);
-        score = 0;
+        //location.reload();
+        submitHighScore(GameID.sk, this.score);
         break;
         
         case 37: 
@@ -51,43 +52,65 @@ var food;
           }
       }
 
+  onButtonUp(function() {
+  if (direction != 'down') {
+    direction = 'up';
+    }
+  });
+
+  onButtonDown(function() {
+  if (direction != 'up') {
+    direction = 'down';
+    }
+  });
+
+  onButtonLeft(function() {
+  if (direction != 'right') {
+    direction = 'left';
+    }
+  });
+
+  onButtonRight(function() {
+  if (direction != 'left') {
+    direction = 'right';
+    }
+  });
+
 })(window, document, drawModule);
 
 ///----///
 
 var drawModule = (function () { 
 
-var start = function(){
-  var score_text = "Final Score: " ;
-          ctx.fillStyle = 'white';
-          ctx.font="30px Calibri";
-           alert('ok');
-}  
-
 var init = function(){
       direction = 'down';
+      
       drawSnake();
+      scoreText();
       createFood();
+      drawBorder();
+
+      //set the game to loop forver unless the paint funciton returns
       gameloop = setInterval(paint, gameSpeed);
   }
 
   var bodySnake = function(x, y) {
- 		ctx.fillStyle = 'white';
-  		ctx.font="10px Calibri";
-  		ctx.fillText("@",x*snakeSize,y*snakeSize);
+    ctx.fillStyle = 'white';
+      ctx.font="10px Calibri";
+      ctx.fillText("@",x*snakeSize,y*snakeSize);
   }
 
   var drawFood = function(x, y) {
-        ctx.fillStyle = 'yellow';
-        ctx.font="10px Calibri";
-  		ctx.fillText("@",x*snakeSize,y*snakeSize);
+      ctx.fillStyle = 'yellow';
+      ctx.font="10px Calibri";
+      ctx.fillText("@",x*snakeSize,y*snakeSize);
   }
 
   var scoreText = function() {
     var score_text = "Score: " + score;
     ctx.fillStyle = 'white';
-    ctx.font="20px Calibri";
-    ctx.fillText(score_text, 280, h-5);
+    ctx.font="15px Calibri";
+    ctx.fillText(score_text, 280, h);
   }
 
   var drawSnake = function() {
@@ -97,6 +120,31 @@ var init = function(){
           snake.push({x:i, y:0});
       }  
   }
+
+    var drawBorder = function () {
+        var x = 0;
+        var y = 0;
+
+        while(x <= 640)
+        {
+          ctx.fillStyle = 'white';
+          ctx.font="15px Calibri";
+          ctx.fillText("#",x,10);
+          if ((x<270) || (x > 340))
+              ctx.fillText("#",x,480);
+          x+=10;
+        }
+
+        while(y <= 480)
+        {
+          ctx.fillStyle = 'white';
+          ctx.font="15px Calibri";
+          ctx.fillText("#",0,y);
+          ctx.fillText("#",630,y);
+          y+=10;
+        }
+  }
+
     
   var paint = function(){
       ctx.fillStyle = '#101';
@@ -113,19 +161,8 @@ var init = function(){
       } else if(direction == 'down') { 
         snakeY++; }
 
-      if (snakeX == -1 || snakeX == w/snakeSize || snakeY == -1 || snakeY == h/snakeSize || checkCollision(snakeX, snakeY, snake)) {
-      
-          //restart the game
-          gameloop = clearInterval(gameloop);
-
-          var score_text = "Final Score: " + score;
-      	  ctx.fillStyle = 'white';
-      	  ctx.font="30px Calibri";
-        	ctx.fillText(score_text, 230, h-240);
-          score = 0;
-
-          return;          
-        }
+        //check if the snake eats itself or hits a wall
+        endGameCheck(snakeX, snakeY);
         
         if(snakeX == food.x && snakeY == food.y) {
           var tail = {x: snakeX, y: snakeY}; 
@@ -144,9 +181,29 @@ var init = function(){
           bodySnake(snake[i].x, snake[i].y);
         } 
         
-        drawFood(food.x, food.y); 
+        drawFood(food.x, food.y);
+        drawBorder(); 
         scoreText();
   }
+
+  var endGameCheck = function(snakeX, snakeY){
+    //wall detection 
+   if (snakeX == 0 || snakeX == 63 || snakeY == 0 || snakeY == 48 || checkCollision(snakeX, snakeY, snake)) { 
+      
+          // //restart the game
+          gameloop = clearInterval(gameloop);
+
+          var score_text = "Final Score: " + score;
+          ctx.fillStyle = 'white';
+          ctx.font="30px Calibri";
+          ctx.fillText(score_text, 230, h-240);
+          submitHighScore(GameID.Snake, this.score);
+          score = 0;
+   
+          return;
+        }
+
+}
 
   var createFood = function() {
       food = {
@@ -165,6 +222,7 @@ var init = function(){
       }
   }
 
+  //snake iteself collsion
   var checkCollision = function(x, y, array) {
       for(var i = 0; i < array.length; i++) {
         if(array[i].x === x && array[i].y === y)
@@ -172,8 +230,9 @@ var init = function(){
       } 
       return false;
   }
+
     return {
       init : init
     };
-    
+
 }());
