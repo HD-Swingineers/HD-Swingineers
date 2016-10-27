@@ -113,21 +113,23 @@ var pacman = {
   drawCell: function(map, x, y) {
     var chr = '';
     var clr = '';
+    var back = '';
     switch(map[x][y]) {
       case pacman.State.WALL:
-        chr = '#';
-        clr = '#3af';
+        chr = '';
+        clr = '';
+        back = '#127';
         break;
       case pacman.State.EMPTY:
         chr = '';
         clr = '';
         break;
       case pacman.State.DOT:
-        chr = '.';
+        chr = '·';
         clr = 'yellow';
         break;
     }
-    cell(x, y).char(chr).color(clr);
+    cell(x, y).char(chr).color(clr).back(back);
   },
   
   /**
@@ -136,21 +138,22 @@ var pacman = {
    */
   drawScore: function(game, full) {
     var score = ('00000' + game.score).substr(-5,5);
-      var lives = ''
+      var lives = '  '
     for (var i = 0; i < game.lives; i++) {
       lives += ' ᗧ'
     }
-    lives = lives.trim();
+    lives = lives + '   ';
     
     // draw updating data
     var region = col(WIDTH-pacman.margin, WIDTH);
     var line = 4;
     row(line+6).intersect(region).centerText(score).color('yellow');
-    row(line+11).intersect(region).clear().centerText(lives).color('yellow');
+    row(line+11).intersect(region).centerText(lives).color('yellow');
     
     if (!full)
       return;
     
+    // draw static data
     row(line++).intersect(region).centerText('PACMAN').color('yellow');
     row(line++).intersect(region).centerText('----------').color('white');
     line++;
@@ -211,6 +214,7 @@ var pacman = {
     pacman.removeDeadEnds(map);
     pacman.convert(map);
     
+    // create the ghost home
     for (var i = -4; i <= 0; i++) {
       for (var j = -3; j <= 3; j++) {
         var value;
@@ -224,6 +228,7 @@ var pacman = {
         map[xCenter+i][yCenter+j] = value;
       }
     }
+    // add a door on the ghost home
     map[xCenter-1][yCenter-2] = pacman.State.Empty;
     pacman.mirror(map, overlap);
     return map;
@@ -238,9 +243,10 @@ pacman.GameState = function(width, height) {
   this.player = new pacman.Player();
   this.lives = 3;
   this.score = 0;
+  this.dying = false;
   
   this.ghosts = [
-    new pacman.Ghost('blue'),
+    new pacman.Ghost('aqua'),
     new pacman.Ghost('pink'),
     new pacman.Ghost('red'),
     new pacman.Ghost('orange')
@@ -256,16 +262,19 @@ pacman.GameState.prototype.draw = function(full) {
   pacman.drawMap(this.map, full);
   pacman.drawScore(this, full);
   
-  this.player.draw();
   for (var i = 0; i < this.ghosts.length; i++) {
     this.ghosts[i].draw();
   }
+  this.player.draw();
 }
 
 /**
  * Resets the positions of all players
  */
 pacman.GameState.prototype.reset = function() {
+  this.dying = false;
+  this.player.dead = false;
+  
   var xCenter = Math.floor(this.map.length/2);
   var yCenter = Math.floor(this.map[0].length/2);
   
@@ -277,33 +286,83 @@ pacman.GameState.prototype.reset = function() {
     ghost.pos.y = yCenter;
     ghost.pos.x = xCenter + i - 2;
   }
+  
+  // clear the screen
+  this.draw(true);
 }
   
 /**
  * Updates the game state
  */
 pacman.GameState.prototype.update = function() {
-  this.player.update(this.map);
-  for (var i = 0; i < this.ghosts.length; i++) {
-    this.ghosts[i].update(this.map);
-  }
-  
-  // update collisions
-  var playerPos = this.player.pos;
-  for (var i = 0; i < this.ghosts.length; i++) {
-    var ghostPos = this.ghosts[i].pos;
-    if (ghostPos.x == playerPos.x && ghostPos.y == playerPos.y) {
-      this.lives--;
+  if (this.dying) {
+    this.player.update(this.map);
+    if (this.player.dead) {
       if (this.lives == 0)
         submitHighScore(GameID.Pacman, this.score);
       else
         this.reset();
-      return;
+    }
+    return;
+  }
+  
+  this.player.update(this.map);
+  updateCollision(this.player, this.ghosts, this);
+  for (var i = 0; i < this.ghosts.length; i++) {
+    this.ghosts[i].update(this.map);
+  }
+  updateCollision(this.player, this.ghosts, this);
+  
+  // remove dots
+  var pos = this.player.pos;
+  if (this.map[pos.x][pos.y] == pacman.State.DOT) {
+    this.score++;
+    this.map[pos.x][pos.y] = pacman.State.EMPTY;
+  }
+  
+  // remake map on completion
+  if (!isDotsLeft(this.map)) {
+    this.map = pacman.generate(this.map.length, this.map[0].length);
+    this.reset();
+  }
+  
+  /**
+   * Performs collision checking and does actions when
+   * a collision has occured
+   */
+  function updateCollision(player, ghosts, game) {
+    if (checkCollision(player, ghosts)) {
+      game.lives--;
+      game.dying = true;
+      player.kill();
     }
   }
-  if (this.map[playerPos.x][playerPos.y] == pacman.State.DOT) {
-    this.score++;
-    this.map[playerPos.x][playerPos.y] = pacman.State.EMPTY;
+  
+  /**
+   * Checks for a collision between the player and the ghosts
+   */ 
+  function checkCollision(player, ghosts) {
+    var playerPos = player.pos;
+    for (var i = 0; i < ghosts.length; i++) {
+      var ghostPos = ghosts[i].pos;
+      if (ghostPos.x == playerPos.x && ghostPos.y == playerPos.y) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks if there are any dots left in the map
+   */  
+  function isDotsLeft(map) {
+    for (var i = 0; i < map.length; i++) {
+      for (var j = 0; j < map[i].length; j++) {
+        if (map[i][j] == pacman.State.DOT)
+          return true;
+      }
+    }
+    return false;
   }
 }
 
@@ -344,7 +403,11 @@ pacman.Player = function() {
   pacman.Mob.call(this, 'o', 'yellow');
   this.goin = this.dir;
   var self = this;
+  
   var secondFrame = false;
+  
+  this.dead = false;
+  var dyingCount = 0;
   
   onButtonLeft(function() {
     self.goin  = Direction.LEFT;
@@ -367,6 +430,25 @@ pacman.Player.prototype = Object.create(pacman.Mob.prototype);
 pacman.Player.prototype.constructor = pacman.Player;
 
 pacman.Player.prototype.update = function(map) {
+  if (this.dyingCount > 0) {
+    this.dyingCount--;
+    switch (this.dyingCount) {
+      case 5:
+        this.char = 'ᗧ'; break;
+      case 4:
+        this.char = 'C'; break;
+      case 3:
+        this.char = '('; break;
+      case 2: 
+        this.char = ':'; break;
+      case 1:
+        this.char = 'X'; break;
+      case 0:
+        this.dead = true; break;
+    }
+    return;
+  }
+  
   var test = this.pos.clone().step(this.goin);
   if (map[test.x][test.y] != pacman.State.WALL)
     this.dir = this.goin;
@@ -376,7 +458,7 @@ pacman.Player.prototype.update = function(map) {
   
   // update sprite
   if (this.secondFrame ^= 1) {
-    this.char = 'o';
+    this.char = 'O';
   } else {
     switch(this.dir) {
       case Direction.LEFT:
@@ -389,6 +471,10 @@ pacman.Player.prototype.update = function(map) {
         this.char = 'ᗣ'; break;
     }
   }
+}
+
+pacman.Player.prototype.kill = function() {
+  this.dyingCount = 6;
 }
 
 /**
