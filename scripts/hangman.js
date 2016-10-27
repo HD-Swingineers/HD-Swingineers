@@ -1,228 +1,318 @@
-// Code for hang man
-$(function() {
-  grid().clear().color('white').back('#111');
-  
-  // example of writting text loaded from a file
-  loadText('scripts/hello (copy).txt', function(text) {
-      writeText(7, 5, text).color('red');
-  });
-  
-  // hangman code goes here
-  row(16).centerText('INSERT GAME HERE');
-
-});
-
 "use strict";
 
-var gOutputImageIndex = 0;
-
-const gOutputImage =
-[
-	"Branch",
-	"Rope",
-	"Head",
-	"Torso",
-	"Arms",
-	"Legs",
+var frames = [
+  [
+    '                             ',
+    '                             ',
+    '                             ',
+    '                             ',
+    '                             ',
+    '                             ',
+    '                             ',
+    '                             ',
+    '                             ',
+    '                             ',
+    '                             ',
+    '  *                       *  ',
+    '_\\|______________________\\|/_'
+  ],
+    [
+    '                             ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '  *   ||                  *  ',
+    '_\\|___╨╨_________________\\|/_'
+  ],
+  [
+    '      ╒======================',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '  *   ||                  *  ',
+    '_\\|___╨╨_________________\\|/_'
+  ],
+  [
+    '      ╒======================',
+    '      ||            |        ',
+    '      ||            |        ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '  *   ||                  *  ',
+    '_\\|___╨╨_________________\\|/_'
+  ],
+  [
+    '      ╒======================',
+    '      ||            |        ',
+    '      ||            |        ',
+    '      ||            ..       ',
+    '      ||             >       ',
+    '      ||            __       ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '      ||                     ',
+    '  *   ||                  *  ',
+    '_\\|___╨╨_________________\\|/_'
+  ],
+  [
+    '      ╒======================',
+    '      ||            |        ',
+    '      ||            |        ',
+    '      ||            ..       ',
+    '      ||             >       ',
+    '      ||            __       ',
+    '      ||            |        ',
+    '      ||           /|\\       ',
+    '      ||            |        ',
+    '      ||                     ',
+    '      ||                     ',
+    '  *   ||                  *  ',
+    '_\\|___╨╨_________________\\|/_'
+  ],
+  [
+    '      ╒======================',
+    '      ||            |        ',
+    '      ||            |        ',
+    '      ||            ..       ',
+    '      ||             >       ',
+    '      ||            __       ',
+    '      ||            |        ',
+    '      ||           /|\\       ',
+    '      ||            |        ',
+    '      ||           / \\       ',
+    '      ||          /_  \\_     ',
+    '  *   ||                  *  ',
+    '_\\|___╨╨_________________\\|/_'
+  ]
 ]
 
-var gHangManWordStatic = "default";
-
-var gHangManWordFlexible = gHangManWordStatic;
-
-var gGameOver = false;
-
+/**
+ * Strips all occurances of a letter from a word
+ */
 function removeLetter(word, letterToRemove)
 {
-	var i = 0;
+  var i = 0;
 
-	while(i < word.length)
-	{
-		if((word[i] == letterToRemove))
-		{
-			var start = "";
+  while(i < word.length)
+  {
+    if((word[i] == letterToRemove))
+    {
+      var start = "";
 
-			if(i > 0)
-			{
-				start = word.slice(0, i);
-			}
+      if(i > 0)
+      {
+        start = word.slice(0, i);
+      }
 
-			var end = "";
+      var end = "";
 
-			if((word.length > 0) && (i != word.length))
-			{
-				end = word.slice(i + 1, word.length);
-			}
+      if((word.length > 0) && (i != word.length))
+      {
+        end = word.slice(i + 1, word.length);
+      }
 
-			word = start + end;
-		}
+      word = start + end;
+    }
 
-		else
-		{
-			i += 1;
-		}
-	}
+    else
+    {
+      i += 1;
+    }
+  }
 
-	return word;
+  return word;
 }
 
-function setHangmanWord() 
+/**
+ * Creates a random word
+ */
+function generateWord() 
 {
-	const easyWords = 
-	[
-		"light",
-		"early",
-		"trees",
-		"forshadow",
-		"parkdale",
-		"forlorne"
-	]
-
-	gHangManWordStatic = easyWords[Math.round(Math.random() * (easyWords.length - 1))];	
-	
-	gHangManWordFlexible = gHangManWordStatic;
+  var words = [
+    "light",
+    "early",
+    "trees",
+    "forshadow",
+    "parkdale",
+    "forlorne"
+  ];
+  return words[Math.floor(Math.random() * (words.length))];  
 }
 
+/**
+ * Counts the occurances of a letter in a word
+ */ 
 function countLetter(string, letter) 
 {
-	var result = 0;
+  var result = 0;
 
-	var i = 0;
+  var i = 0;
 
-	while(i < string.length)
-	{
-		if(string[i] == letter)
-		{
-			result += 1;
-		}
-		i += 1;
-	}
+  while(i < string.length)
+  {
+    if(string[i] == letter)
+    {
+      result += 1;
+    }
+    i += 1;
+  }
 
-	return result;
+  return result;
 }
 
-function addLetter(word, letterToRemove)
-{
-	var i = 0;
-
-	while(i < word.length)
-	{
-		if((word[i] == letterToRemove))
-		{
-			var start = "";
-
-			if(i > 0)
-			{
-				start = word.slice(0, i);
-			}
-
-			var end = "";
-
-			if((word.length > 0) && (i != word.length))
-			{
-				end = word.slice(i + 1, word.length);
-			}
-
-			word = start + end;
-		}
-
-		else
-		{
-			i += 1;
-		}
-	}
-
-	return word;
-}
-
+/**
+ * Converts a word into a series of underscores
+ */
 function underscoreWord(word) 
 {
-	var result = "";
+  var result = "";
 
-	var i = 0;
+  var i = 0;
 
-	while(i < word.length)
-	{
-		result += "_";
-		i += 1;
-	}
+  while(i < word.length)
+  {
+    result += "_";
+    i += 1;
+  }
 
-	return result;
+  return result;
 }
 
-function hangmanFillLetter(letter) 
-{
-	var result = "";
+/**
+ * Removes underscores from a word.
+ */
+function removeUnderscores(revealed, partial, letter) {
+  var result = partial;
+  for (var i = 0; i < revealed.length; i++) {
+    if (revealed[i] == letter) {
+      // replace the undescore with the letter
+      result = result.substr(0, i) + letter + result.substr(i+1);
+    }
+  }
+  return result;
+}
 
-	var initialString = document.getElementById("hangManWordOut").innerHTML;
+/**
+ * Draws a frame to the screen 
+ */
+function drawFrame(frame) {
+  for (var i = 0; i < frame.length; i++) {
+    row(4+i).centerText(frame[i]);
+  }
+}
 
-	var i = 0;
+/**
+ * Draws the guesses that the player has taken
+ */
+function drawGuesses(guessed) {
+  var string = '';
+  for (var i = 0; i < guessed.length; i++) {
+    string += guessed[i].toUpperCase() + ' ';
+  }
+  row(22).centerText(string);
+}
 
-	while(i < gHangManWordStatic.length)
-	{
-		if(gHangManWordStatic[i] == letter)
-		{
-			result += letter;
-		}
+/**
+ * Designed for when the player looses the game.
+ * This draws the compelted word with the
+ * unguessed letters in a different color;
+ */ 
+function completeWord(partial, complete) {
+  var index = 0;
+  row(20).centerText(partial.toUpperCase()).each(function(theCell, x, y) {
+    if (theCell.char() == '_')
+      theCell.color('red').char(complete[index].toUpperCase());
+    index++;
+  });
+}
 
-		else
-		{
-			result += initialString[i];
-		}
-
-		i += 1;
-	}
-
-	document.getElementById("hangManWordOut").innerHTML = result;
+/**
+ * Draws the partially completed word
+ */
+function drawPartial(partial) {
+  row(20).centerText(partial.toUpperCase()).color('orange');
 }
 
 function hangMan()
 {
-	setHangmanWord();
+  grid().clear().color('white').back('#111')
+  // the word being guessed
+  var word = generateWord();
+  // the current frame being displayed
+  var frameIndex = 0;
+  // the partially guessed word
+  var partial = underscoreWord(word);
 
-	 // example of writting text loaded from a file
-	  loadText('../graphics/7th last.txt', function(text) {
-	      writeText(7, 5, text).color('red');
-	  });
+  var guessed = [];
 
-	document.getElementById("hungman").innerHTML = gOutputImage[gOutputImageIndex];
+  drawFrame(frames[frameIndex]);
+  drawPartial(partial);
+  
+  var gameOver = false;
+  var won = false;
+  
+  onKeyPressed(function(key) {
+    if (gameOver) {
+      if (won) {
+        submitHighScore(GameID.HangMan, (10-guessed.length)*10);
+      } else {
+        location.reload();
+      }
+    } else if (/^[a-zA-Z]$/.test(key)) {  
+      key = key.toLowerCase();
+      if (countLetter(word, key)) {
+        // a letter has been guessed correctly
+        partial = removeUnderscores(word, partial, key);
+        drawPartial(partial);
+        
+        if (countLetter(partial, '_') == 0) {
+          row(24).centerText('--- YOU WIN ---').color('yellow');
+          gameOver = won = true;
+          row(26).centerText('Press any key to submit score').color('#aaa');
+        }
+      } else if (guessed.indexOf(key) == -1) {
+        guessed.push(key);
+        drawGuesses(guessed);
+        frameIndex++;
+        drawFrame(frames[frameIndex]);
 
-	document.getElementById("hangManWordOut").innerHTML = underscoreWord(gHangManWordStatic);
-
-	document.addEventListener("keydown", 
-		function(event) 
-		{
-			if ((event.keyCode >= 65) && (event.keyCode <= 90) && !(gGameOver))
-			{	
-				const alpha = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "j", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-				
-				var tempString = removeLetter(gHangManWordFlexible, alpha[event.keyCode - 65]);
-
-				if((gHangManWordFlexible.length - tempString.length) != 0)
-				{
-					gHangManWordFlexible = tempString;
-
-					hangmanFillLetter(alpha[event.keyCode - 65]);
-
-					if (countLetter(document.getElementById("hangManWordOut").innerHTML, "_") == 0) 
-					{
-						gGameOver = true;
-						document.getElementById("ending").innerHTML = "!!YOU WON!!";
-					}				
-				}
-				
-				else
-				{
-					gOutputImageIndex += 1;
-
-					document.getElementById("hungman").innerHTML = gOutputImage[gOutputImageIndex];
-
-					if (gOutputImageIndex == gOutputImage.length - 1) 
-					{
-						gGameOver = true;
-						document.getElementById("ending").innerHTML = "--YOU LOST--";
-					}
-				}
-			}
-		});
+        if (frameIndex == frames.length-1) {
+          row(24).centerText('---  YOU LOSE ---').color('yellow');
+          row(26).centerText('Press any key to restart').color('#aaa');
+          
+          completeWord(partial, word);
+          
+          gameOver = true;
+        }
+      }
+    }
+  });
 }
+
+onKeyPressed(function(key) {
+  console.log(key);
+});
+
+$(hangMan);

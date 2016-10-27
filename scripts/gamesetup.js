@@ -278,8 +278,9 @@ Group.prototype.centerText = function(content) {
     this.cells.each(function(i, cell) {
       var char = content[i-offset];
       $(cell).text(char);
-      if (char !== undefined)
+      if (char !== undefined) {
         textSelection = textSelection.add(cell);
+      }
     });
     return new Group(textSelection);
   }
@@ -315,6 +316,14 @@ function onButtonB(listener) {
   $('#b').click(listener);
 }
 
+/**
+ * Called when any keyoard key is pressed.
+ * The key passed to the listener will be the english 
+ * name of the key. For instance, some key names are:
+ * 'a', 'Shift', 'Control', 'Enter', etc.
+ * Note that if shift is beign held, then letters will
+ * be given in uppercase 
+ */
 function onKeyPressed(listener) {
   $(document).keydown(function(event) {
     listener(event.key);

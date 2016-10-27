@@ -33,7 +33,7 @@ main {
   overflow: hidden;
   -moz-user-select: none;
   user-select: none;
-  line-height: 16px;
+  line-height: 15px;
   cursor: default;
 }
 
