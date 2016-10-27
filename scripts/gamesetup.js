@@ -14,7 +14,6 @@ var _useShift = true;
 var GameID = {
   Nacs:          'nc',
   HangMan:       'hm',
-  TextAdventure: 'ta',
   MazeGame:      'mg',
   Pacman:        'pc',
   Snake:         'sk'

@@ -2,20 +2,19 @@
 const options = [
   { name: 'NOUGHTS AND CROSSES', page: 'GameView.html' },
   { name: 'HANGMAN',             page: 'Hangman.html' },
-  { name: 'TEXT ADVENTURE',      page: 'GameView.html' },
   { name: 'MAZE GAME',           page: 'maze.html' },
   { name: 'PACMAN',              page: 'pacman.html' },
   { name: 'HIGH SCORES',         page: 'highscores.html' },
 ];
 
-const OPTIONS_START = 14;
+const OPTIONS_START = 15;
 
 var selected = 0;
 
 var displayMenu = function() {
   grid().clear().color('white');
   
-  var line = 2;
+  var line = 3;
   row(line++).centerText('======================================').color('red');
   line++;
   row(line++).centerText(' #   #  #### ####    ####   ###  ## ##').color('white');

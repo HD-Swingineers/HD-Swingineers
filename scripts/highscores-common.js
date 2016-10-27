@@ -10,7 +10,6 @@
 var _names = {
   [GameID.Nacs]:          'NOUGHTS AND CROSSES',
   [GameID.HangMan]:       'HANG MAN',
-  [GameID.TextAdventure]: 'TEXT ADVENTURE',
   [GameID.MazeGame]:      'MAZE GAME',
   [GameID.Pacman]:        'PACMAN',
   [GameID.Snake]:         'SNAKE'

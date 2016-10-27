@@ -10,7 +10,6 @@
 var _order = [
   GameID.Nacs,
   GameID.HangMan,
-  GameID.TextAdventure,
   GameID.MazeGame,
   GameID.Pacman,
   GameID.Snake
