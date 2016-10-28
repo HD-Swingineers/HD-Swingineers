@@ -1,12 +1,12 @@
 QUnit.test('snake direction', function(assert) {
-	var right = Direction.RIGHT;
+	var left = Direction.RIGHT;
   //var leftup = (Direction.LEFT | Direction.UP)
   
-  var result1 = Direction.flip(RIGHT);
+  var result1 = Direction.flip(right);
  // var result2 = Direction.flip(leftup);
   
   assert.equal(result1, Direction.LEFT);
-  //assert.equal(result2, Direction.RIGHT | Direction.DOWN);
+  // assert.equal(result2, Direction.RIGHT | Direction.DOWN);
 	// var snakeRight = Direction.right;  
  // 	var result = Direction.flip(right);
   
