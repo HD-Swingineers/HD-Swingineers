@@ -14,3 +14,11 @@ QUnit.test('snake direction', function(assert) {
 	assert.equal(result3, Direction.DOWN);
 	assert.equal(result4, Direction.UP);
 });
+
+QUnit.test("Check if grid was created correctly", function(assert) {
+  var space = document.getElementById('cell-0x0');
+  var space2 = document.getElementById('cell-'+(WIDTH-1)+'x'+(HEIGHT-1));
+  
+  assert.ok(space != null);
+  assert.ok(2 != null);
+});
