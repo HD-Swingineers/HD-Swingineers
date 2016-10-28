@@ -59,3 +59,20 @@ QUnit.test("Check if grid was created correctly", function(assert) {
 //   var snkLength = 
 
 // });
+
+function checkCollision (x1 ,y1, x2, y2){
+  if (x1 == x2) && (y1 == y2){
+    SCORE++;
+    SNAKELENGTH++;
+  }
+}
+
+
+
+function addScore(num) {
+  return num++
+}
+
+function snakeLength (){
+  return SNAKELENGTH;
+}
