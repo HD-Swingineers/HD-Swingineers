@@ -20,12 +20,40 @@ QUnit.test("Check if grid was created correctly", function(assert) {
   var space2 = document.getElementById('cell-'+(WIDTH-1)+'x'+(HEIGHT-1));
 
   assert.ok(space != null);
-  assert.ok(2 != null);
+  assert.ok(space2 != null);
 });
 
 QUnit.test("Check if snake can incrament score", function(assert) {
   var scr = SCORE;
-
   assert.equal(0,scr);
+  scr = AddScore(scr);
+  assert.equal(1, scr);
+});
+
+QUnit.test("Check if snake length increases and score goes up", function(assert) {
+  var scr = SCORE;
+  var xPos = 0;
+  var yPos = 0;
+  var xFood = 0;
+  var yFood = 0;
+
+  var snake = []
+  for (var i = SNAKELENGTH; i>=0; i--) {
+          snake.push({x:i, y:0});
+      }  
+  	assert.equal(3,snake.length);
+
+  //  if (checkCollision(xPos,yPos,xFood,yFood)
+  //  {
+
+  //  }
+
+  // assert.equal()
+
+
+});
+
+QUnit.test("Check if snake died", function(assert) {
+  var snkLength = 
 
 });

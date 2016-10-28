@@ -79,8 +79,24 @@ var Direction = {
 }
 
 // michaels unnit testing crap
+var SCORE = 0;
+var SNAKELENGTH = 3;
+
+function checkCollision (x1 ,y1, x2, y2)
+{
+  if (x1 == x2) && (y1 == y2){
+    SCORE++;
+    SNAKELENGTH++;
+  }
+  return false;
+}
+
 function addScore(num) {
   return num++
 }
 
-var SCORE = 0;
+function snakeLength (){
+  return SNAKELENGTH;
+}
+
+
