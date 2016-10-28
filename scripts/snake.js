@@ -1,5 +1,5 @@
 
-var mycanvas = document.getElementById('game-window');
+var mycanvas = document.getElementById('game-window2');
 var ctx = mycanvas.getContext('2d');
 var w = 640;
 var h = 480;
