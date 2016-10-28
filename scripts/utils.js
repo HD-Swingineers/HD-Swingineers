@@ -88,7 +88,6 @@ function checkCollision (x1 ,y1, x2, y2)
     SCORE++;
     SNAKELENGTH++;
   }
-  return false;
 }
 
 function addScore(num) {

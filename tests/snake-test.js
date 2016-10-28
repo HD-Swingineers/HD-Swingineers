@@ -31,7 +31,7 @@ QUnit.test("Check if snake can incrament score", function(assert) {
 });
 
 QUnit.test("Check if snake length increases and score goes up", function(assert) {
-  var scr = SCORE;
+ // var scr = SCORE;
   var xPos = 0;
   var yPos = 0;
   var xFood = 0;
@@ -41,19 +41,16 @@ QUnit.test("Check if snake length increases and score goes up", function(assert)
   for (var i = SNAKELENGTH; i>=0; i--) {
           snake.push({x:i, y:0});
       }  
-  	assert.equal(3,snake.length);
+  assert.equal(3,snake.length);
+  assert.equal(0,SCORE);
 
-  //  if (checkCollision(xPos,yPos,xFood,yFood)
-  //  {
+  checkCollision(xPos,yPos,xFood,yFood);//collsion with food
 
-  //  }
-
-  // assert.equal()
-
-
+  assert.equal(4,SNAKELENGTH);
+  assert.equal(1,SCORE);
 });
 
-QUnit.test("Check if snake died", function(assert) {
-  var snkLength = 
+// QUnit.test("Check if snake died", function(assert) {
+//   var snkLength = 
 
-});
+// });
