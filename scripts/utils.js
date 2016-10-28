@@ -1,8 +1,10 @@
 "use strict";
 
+
 /**
  * A 2D point object
  */
+
 function Point(x, y) {
   this.x = x;
   this.y = y;
@@ -75,3 +77,10 @@ var Direction = {
     return dir;
   }
 }
+
+// michaels unnit testing crap
+function addScore(num) {
+  return num++
+}
+
+var SCORE = 0;

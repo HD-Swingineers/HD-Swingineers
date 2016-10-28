@@ -18,7 +18,14 @@ QUnit.test('snake direction', function(assert) {
 QUnit.test("Check if grid was created correctly", function(assert) {
   var space = document.getElementById('cell-0x0');
   var space2 = document.getElementById('cell-'+(WIDTH-1)+'x'+(HEIGHT-1));
-  
+
   assert.ok(space != null);
   assert.ok(2 != null);
+});
+
+QUnit.test("Check if snake can incrament score", function(assert) {
+  var scr = SCORE;
+
+  assert.equal(0,scr);
+
 });
