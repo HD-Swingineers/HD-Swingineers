@@ -34,8 +34,7 @@ var displayMenu = function() {
     line += 2;
   }
 
-  
-  row(HEIGHT-1).centerText('A GAME BY THE SWINGINEERS').color('lightgray');
+    row(HEIGHT).centerText('A GAME BY THE SWINGINEERS').color('lightgray');
   
   setSelected(0);
 }
