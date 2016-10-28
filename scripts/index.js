@@ -1,9 +1,10 @@
 // a list of all games
 const options = [
   { name: 'NOUGHTS AND CROSSES', page: 'noughts&crosses.html' },
-  { name: 'SNAKE',             page: 'snake.html' },
+  { name: 'SNAKE',               page: 'snake.html' },
   { name: 'MAZE GAME',           page: 'maze.html' },
   { name: 'PACMAN',              page: 'pacman.html' },
+  { name: 'HANGMAN',             page: 'Hangman.html' },	
   { name: 'HIGH SCORES',         page: 'highscores.html' },
 ];
 
@@ -32,7 +33,7 @@ var displayMenu = function() {
     line += 2;
   }
   
-  row(HEIGHT-3).centerText('A GAME BY THE SWINGINEERS').color('lightgray');
+  row(HEIGHT-2).centerText('A GAME BY THE SWINGINEERS').color('lightgray');
   
   setSelected(0);
 }
