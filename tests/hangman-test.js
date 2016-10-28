@@ -28,7 +28,5 @@ QUnit.test('remove underscores from word', function(assert) {
   var expected = '_ell___he_e';
   
   var result = removeUnderscores(word, part, 'e');
-  
   assert.equal(result, expected);
-  assert.ok(false);
 });
