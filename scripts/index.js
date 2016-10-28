@@ -6,6 +6,7 @@ const options = [
   { name: 'PACMAN',              page: 'pacman.html' },
   { name: 'HANGMAN',             page: 'Hangman.html' },	
   { name: 'HIGH SCORES',         page: 'highscores.html' },
+  { name: 'ABOUT',         page: 'about.html' },
 ];
 
 const OPTIONS_START = 15;
@@ -32,8 +33,9 @@ var displayMenu = function() {
     row(line).centerText(game.name);
     line += 2;
   }
+
   
-  row(HEIGHT-2).centerText('A GAME BY THE SWINGINEERS').color('lightgray');
+  row(HEIGHT-1).centerText('A GAME BY THE SWINGINEERS').color('lightgray');
   
   setSelected(0);
 }

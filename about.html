@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="A ASCII art game" />
+    <meta name="keywords" content="ASCII, game" />
+    <meta name="author" content="Swingineers" />
+  
+    <title>About</title>
+     <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+    <link href="styles/style.css" rel="stylesheet" />
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/gamesetup.js"></script>
+    <script>
+      $(function() {
+        grid().clear().color('white').back('#111');
+        var line = 6;
+        row(line++).centerText('====================================').color('red');
+        line++;
+        row(line++).centerText('               Our Team                  ').color('white');
+        row(line++).centerText('                                       ').color('yellow');
+        row(line++).centerText('       Product Owner: Michael S           ').color('yellow');
+        row(line++).centerText('                                       ').color('yellow');
+        row(line++).centerText('          Lead Developer: Matt S             ').color('yellow');
+        row(line++).centerText('                                       ').color('yellow');
+        row(line++).centerText('  Team Leader & Developer: Michael P    ').color('yellow');
+        line++;
+        row(line++).centerText('====================================').color('red');
+        line++;
+        line++;
+        line++;
+      });
+    </script>
+  </head>
+  
+  <body>
+    <main>
+      <section id="game-window">
+        <!-- JavaScript will generate content here -->
+      </section>
+      <section class="controlls">
+        <div class="arrows">
+          <button id="up">&uarr;</button>
+          <button id="down">&darr;</button>
+          <button id="left">&larr;</button>
+          <button id="right">&rarr;</button>
+        </div>
+        <div class="options">
+          <button id="start">Start</button>
+          <button id="select">Select</button>
+        </div>
+        <div class="actions">
+          <button id="a">A</button>
+          <button id="b">B</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
