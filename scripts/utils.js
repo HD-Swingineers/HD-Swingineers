@@ -1,5 +1,25 @@
 "use strict";
 
+// michaels unnit testing crap
+var SCORE = 0;
+var SNAKELENGTH = 3;
+
+function checkCollision (x1 ,y1, x2, y2)
+{
+  if (x1 == x2) && (y1 == y2){
+    SCORE++;
+    SNAKELENGTH++;
+  }
+}
+
+function addScore(num) {
+  return num++
+}
+
+function snakeLength (){
+  return SNAKELENGTH;
+}
+
 
 /**
  * A 2D point object
@@ -78,24 +98,6 @@ var Direction = {
   }
 }
 
-// michaels unnit testing crap
-var SCORE = 0;
-var SNAKELENGTH = 3;
 
-function checkCollision (x1 ,y1, x2, y2)
-{
-  if (x1 == x2) && (y1 == y2){
-    SCORE++;
-    SNAKELENGTH++;
-  }
-}
-
-function addScore(num) {
-  return num++
-}
-
-function snakeLength (){
-  return SNAKELENGTH;
-}
 
 
