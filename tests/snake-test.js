@@ -73,6 +73,5 @@ function addScore(num) {
   return num++
 }
 
-// function snakeLength (){
-//   return SNAKELENGTH;
-// }
+// 
+
