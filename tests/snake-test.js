@@ -28,7 +28,7 @@ QUnit.test("Check if snake can incrament score", function(assert) {
   	var scr = SCORE;
  	assert.equal(0,scr);
 	SCORE++; //isues qunit forced me to do this way
-	assert.equal(1,scr);
+	assert.equal(1,SCORE);
 });
 
 QUnit.test("Check if snake length increases and score goes up", function(assert) {

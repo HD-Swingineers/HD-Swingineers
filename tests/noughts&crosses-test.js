@@ -5,12 +5,30 @@ QUnit.test("Check if snake can incrament score", function(assert) {
   assert.equal(1, scr);
 });
 
+QUnit.test('Correct wall generation test (borders)', function(assert) {
+  var map = stringToMap([
+    '#####',
+    '#@ -#',
+    '## ##',
+    '## ##', // <- should stop here
+    '## ##'
+  ]);
+  var p = new Point(1, 1);
+  var result = mazegen.backtrace(map, p);
+  
+  assert.equal(map[1][1], mazegen.State.PATH);
+  assert.equal(map[2][1], mazegen.State.PATH);
+  assert.equal(map[3][1], mazegen.State.PATH); // unchanged
+  assert.equal(map[2][2], mazegen.State.PATH);
+  assert.equal(map[2][3], mazegen.State.EMPTY);
+  
+  assert.deepEqual(p, new Point(2, 3));
+  assert.equal(result, false);
+});
+
 QUnit.test("Check if snake length increases and score goes up", function(assert) {
  // var scr = SCORE;
-  var xPos = 0;
-  var yPos = 0;
-  var xFood = 0;
-  var yFood = 0;
+  var selection = 0;
 
   var snake = []
   for (var i = SNAKELENGTH; i>=0; i--) {
