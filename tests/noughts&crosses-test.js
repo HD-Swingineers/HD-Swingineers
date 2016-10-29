@@ -1,3 +1,5 @@
+
+
 QUnit.test("Score incrementation", function(assert) {
   var scr = SCORE;
   assert.equal(0,scr);
@@ -30,6 +32,6 @@ QUnit.test("Test if the cells were created correctly", function(assert) {
 
 
   assert.ok(cell1 != null);
-  
+
   assert.ok(cell2 != null);
 });
