@@ -1,11 +1,3 @@
-QUnit.test("Test selction had correct defaults and ", function(assert) {
-  var space = document.getElementById('cell-0x0');
-  var space2 = document.getElementById('cell-'+(WIDTH-1)+'x'+(HEIGHT-1));
-
-  assert.ok(space != null);
-  assert.ok(space2 != null);
-});
-
 QUnit.test("Check if snake can incrament score", function(assert) {
   var scr = SCORE;
   assert.equal(0,scr);
@@ -33,7 +25,9 @@ QUnit.test("Check if snake length increases and score goes up", function(assert)
   assert.equal(1,SCORE);
 });
 
-// QUnit.test("Check if snake died", function(assert) {
-//   var snkLength = 
-
-// });
+QUnit.test("Test selction had correct defaults and ", function(assert) {
+  var cell1 = document.getElementById('cell-0x0');
+  var cell2 = document.getElementById('cell-'+(WIDTH-1)+'x'+(HEIGHT-1));
+  assert.ok(cell1 != null);
+  assert.ok(cell2 != null);
+});

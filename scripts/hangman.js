@@ -1,20 +1,6 @@
 "use strict";
 
-// michaels unnit testing crap
-var SCORE = 0;
-var SNAKELENGTH = 3;
 
-function addScore(num) {
-    SCORE ++;
-}
-
-
-function checkCollision (x1 ,y1, x2, y2){
-  // if (x1 == x2) && (y1 == y2){
-    SCORE = SCORE + 1;
-    SNAKELENGTH = SNAKELENGTH + 1;
-  // }
-}
 
 
 var frames = [
@@ -333,3 +319,24 @@ onKeyPressed(function(key) {
 });
 
 $(hangMan);
+
+// michaels unnit testing crap
+var SCORE = 0;
+var SNAKELENGTH = 3;
+
+function gameWon()
+{
+  
+}
+
+function addScore(num) {
+    SCORE ++;
+}
+
+
+function checkCollision (x1 ,y1, x2, y2){
+  // if (x1 == x2) && (y1 == y2){
+    SCORE = SCORE + 1;
+    SNAKELENGTH = SNAKELENGTH + 1;
+  // }
+}
