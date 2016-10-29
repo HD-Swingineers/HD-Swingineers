@@ -12,8 +12,8 @@ function addScore(num) {
 
 function checkCollision (x1 ,y1, x2, y2){
   // if (x1 == x2) && (y1 == y2){
-    SCORE++;
-    SNAKELENGTH++;
+    SCORE = SCORE + 1;
+    SNAKELENGTH = SNAKELENGTH + 1;
   // }
 }
 
