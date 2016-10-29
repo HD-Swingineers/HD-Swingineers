@@ -1,5 +1,10 @@
 "use strict";
 
+// michaels unnit testing crap
+var SCORE = 0;
+var SNAKELENGTH = 3;
+
+
 var frames = [
   [
     '                             ',

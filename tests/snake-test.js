@@ -1,8 +1,4 @@
 
-// michaels unnit testing crap
-var SCORE = 0;
-var SNAKELENGTH = 3;
-
 QUnit.test('snake direction', function(assert) {
 	var snkRight = Direction.RIGHT;
 	var snkLeft = Direction.LEFT;
