@@ -60,9 +60,5 @@ QUnit.test("Check if snake length increases and score goes up", function(assert)
 
 
 
-function addScore(num) {
-  return num++
-}
-
 // 
 
