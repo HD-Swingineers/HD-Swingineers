@@ -3,7 +3,7 @@
 QUnit.test("Score incrementation", function(assert) {
   var scr = SCORE;
   assert.equal(0,scr);
-  AddScore();
+  // AddScore();
   assert.equal(1, scr);
 });
 
