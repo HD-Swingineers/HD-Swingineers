@@ -24,44 +24,39 @@ QUnit.test("Check if grid was created correctly", function(assert) {
   assert.ok(space2 != null);
 });
 
-// QUnit.test("Check if snake can incrament score", function(assert) {
-//   var scr = SCORE;
-//   assert.equal(0,scr);
-//   scr = AddScore(scr);
-//   assert.equal(1, scr);
-// });
+QUnit.test("Check if snake can incrament score", function(assert) {
+  var scr = SCORE;
+  assert.equal(0,scr);
+  scr = AddScore(scr);
+  assert.equal(1, scr);
+});
 
-// QUnit.test("Check if snake length increases and score goes up", function(assert) {
-//  // var scr = SCORE;
-//   var xPos = 0;
-//   var yPos = 0;
-//   var xFood = 0;
-//   var yFood = 0;
+QUnit.test("Check if snake length increases and score goes up", function(assert) {
+ // var scr = SCORE;
+  var xPos = 0;
+  var yPos = 0;
+  var xFood = 0;
+  var yFood = 0;
 
-//   var snake = []
-//   for (var i = SNAKELENGTH; i>=0; i--) {
-//           snake.push({x:i, y:0});
-//       }  
-//   assert.equal(3,snake.length);
-//   assert.equal(0,SCORE);
+  var snake = []
+  for (var i = SNAKELENGTH; i>=0; i--) {
+          snake.push({x:i, y:0});
+      }  
+  assert.equal(3,snake.length);
+  assert.equal(0,SCORE);
 
-//   checkCollision(xPos,yPos,xFood,yFood);//collsion with food
+  checkCollision(xPos,yPos,xFood,yFood);//collsion with food
 
-//   assert.equal(4,SNAKELENGTH);
-//   assert.equal(1,SCORE);
-// });
+  assert.equal(4,SNAKELENGTH);
+  assert.equal(1,SCORE);
+});
 
 // QUnit.test("Check if snake died", function(assert) {
 //   var snkLength = 
 
 // });
 
-function checkCollision (x1 ,y1, x2, y2){
-  // if (x1 == x2) && (y1 == y2){
-    SCORE++;
-    SNAKELENGTH++;
-  // }
-}
+
 
 
 
