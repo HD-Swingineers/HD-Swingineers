@@ -4,9 +4,9 @@
 var SCORE = 0;
 var SNAKELENGTH = 3;
 
-
 function addScore(num) {
-    SCORE ++;
+    var result = num;
+    return num;
 }
 
 

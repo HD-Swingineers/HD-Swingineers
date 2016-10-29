@@ -25,11 +25,10 @@ QUnit.test("Check if grid was created correctly", function(assert) {
 });
 
 QUnit.test("Check if snake can incrament score", function(assert) {
-  	var scr = SCORE;
+  	var scr = 0;
  	assert.equal(0,scr);
-	AddScore();
-	scr = SCORE;
-	// assert.equal(1,scr);
+	scr = AddScore(scr);
+	assert.equal(1,scr);
 });
 
 QUnit.test("Check if snake length increases and score goes up", function(assert) {
@@ -51,15 +50,4 @@ QUnit.test("Check if snake length increases and score goes up", function(assert)
   assert.equal(4,SNAKELENGTH);
   assert.equal(1,SCORE);
 });
-
-// QUnit.test("Check if snake died", function(assert) {
-//   var snkLength = 
-
-// });
-
-
-
-
-
-// 
 
