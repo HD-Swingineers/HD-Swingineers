@@ -27,7 +27,7 @@ QUnit.test("Check if grid was created correctly", function(assert) {
 QUnit.test("Check if snake can incrament score", function(assert) {
   	var scr = 0;
  	assert.equal(0,scr);
-	scr = AddScore(scr);
+	// scr = 1;/AddScore(scr);
 	assert.equal(1,scr);
 });
 
