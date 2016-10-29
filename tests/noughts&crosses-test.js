@@ -21,7 +21,7 @@ QUnit.test('Correct wall generation test (borders)', function(assert) {
   assert.equal(result, false);
 });
 
-QUnit.test("Test selction had correct defaults and ", function(assert) {
+QUnit.test("Test if the cells were created correctly", function(assert) {
   var cell1 = document.getElementById('cell-0x0');
   var cell2 = document.getElementById('cell-'+(WIDTH-1)+'x'+(HEIGHT-1));
   assert.ok(cell1 != null);
