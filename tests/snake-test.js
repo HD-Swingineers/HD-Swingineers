@@ -43,12 +43,12 @@ QUnit.test("Check if snake length increases and score goes up", function(assert)
           snake.push({x:i, y:0});
       }  
   assert.equal(4,snake.length);
-  assert.equal(0,SCORE);
+  assert.equal(1,SCORE);
 
   checkCollision(xPos,yPos,xFood,yFood);//collsion with food
   SNAKELENGTH++;
 
   assert.equal(5,SNAKELENGTH);
-  assert.equal(1,SCORE);
+  assert.equal(2,SCORE);
 });
 
