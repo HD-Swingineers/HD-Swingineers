@@ -51,10 +51,10 @@ Point.prototype.step = function(dir) {
  * A bunch of directions something can go in
  */
 var Direction = {
-	UP: 1,
-	LEFT: 2, 
-	RIGHT: 4, 
-	DOWN: 8,
+  UP: 1,
+  LEFT: 2, 
+  RIGHT: 4, 
+  DOWN: 8,
   
   /**
    * Revereses the direction

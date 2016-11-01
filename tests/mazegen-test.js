@@ -2,34 +2,34 @@
 // This will also transform the array about the x=y axis
 // so that x,y coordinates look correct in code.
 var stringToMap = function(stringArray) {
-	var map = [];
-		
-	for (var i in stringArray) {
-		for (var j in stringArray[i]) {
-			var ch = stringArray[i][j];
-			var value;
-			switch (ch) {
-				case '#': 
-					value = mazegen.State.SOLID; break;
-				case '-': 
-					value = mazegen.State.PATH; break;
-				case ' ':
+  var map = [];
+    
+  for (var i in stringArray) {
+    for (var j in stringArray[i]) {
+      var ch = stringArray[i][j];
+      var value;
+      switch (ch) {
+        case '#': 
+          value = mazegen.State.SOLID; break;
+        case '-': 
+          value = mazegen.State.PATH; break;
+        case ' ':
         case '~':
         case '@': // position of interest
-					value = mazegen.State.EMPTY; break;
-				default:
-					console.log('unknown value \'' + ch + '\'');
-			};
-			
-			var line = map[j];
-			if (!line) {
-				line = [];
-				map.push(line);
-			}
-			line.push(value);
-		}
-	}
-	return map;
+          value = mazegen.State.EMPTY; break;
+        default:
+          console.log('unknown value \'' + ch + '\'');
+      };
+      
+      var line = map[j];
+      if (!line) {
+        line = [];
+        map.push(line);
+      }
+      line.push(value);
+    }
+  }
+  return map;
 }
 
 var mapToString = function(m) {
@@ -78,26 +78,26 @@ var mapToString = function(m) {
 }
 
 QUnit.test('StringToMap works', function(assert) {
-	var map = stringToMap([
-		'# ',
-		'-#',
-		' -'
-	]);
-	
-	assert.equal(map[0][0], mazegen.State.SOLID);
-	assert.equal(map[1][0], mazegen.State.EMPTY);
-	assert.equal(map[0][1], mazegen.State.PATH);
-	assert.equal(map[1][1], mazegen.State.SOLID);
-	assert.equal(map[0][2], mazegen.State.EMPTY);
-	assert.equal(map[1][2], mazegen.State.PATH);
+  var map = stringToMap([
+    '# ',
+    '-#',
+    ' -'
+  ]);
+  
+  assert.equal(map[0][0], mazegen.State.SOLID);
+  assert.equal(map[1][0], mazegen.State.EMPTY);
+  assert.equal(map[0][1], mazegen.State.PATH);
+  assert.equal(map[1][1], mazegen.State.SOLID);
+  assert.equal(map[0][2], mazegen.State.EMPTY);
+  assert.equal(map[1][2], mazegen.State.PATH);
 });
 
 QUnit.test('MapToString works', function(assert) {
   var map = stringToMap([
-		'# ',
-		'-#',
-		' -'
-	]);
+    '# ',
+    '-#',
+    ' -'
+  ]);
   
   assert.equal(mapToString(map), 
     '# \n' +
@@ -107,54 +107,54 @@ QUnit.test('MapToString works', function(assert) {
 });
 
 QUnit.test('All empty directions can be valid gen directions', function(assert) {
-	var map = stringToMap([
-		'#####',
+  var map = stringToMap([
     '#####',
-		'##@##',
-		'#####',
+    '#####',
+    '##@##',
+    '#####',
     '#####'
-	]);
-	
-	var result = mazegen.validDirs(map, new Point(2, 2));
-	
-	assert.ok(result.indexOf(Direction.UP) != -1);
-	assert.ok(result.indexOf(Direction.DOWN) != -1);
-	assert.ok(result.indexOf(Direction.LEFT) != -1);
-	assert.ok(result.indexOf(Direction.RIGHT) != -1);
+  ]);
+  
+  var result = mazegen.validDirs(map, new Point(2, 2));
+  
+  assert.ok(result.indexOf(Direction.UP) != -1);
+  assert.ok(result.indexOf(Direction.DOWN) != -1);
+  assert.ok(result.indexOf(Direction.LEFT) != -1);
+  assert.ok(result.indexOf(Direction.RIGHT) != -1);
 });
 
 QUnit.test('Valid gen cannot go next to another path', function(assert) {
-	var map = stringToMap([
-		'#####',
+  var map = stringToMap([
+    '#####',
     '# ###',
-		'##@##',
-		'#### ',
+    '##@##',
+    '#### ',
     '## ##'
-	]);
+  ]);
   
-	var result = mazegen.validDirs(map, new Point(2, 2));
-	
-	assert.ok(-1 == result.indexOf(Direction.UP));
-	assert.ok(-1 == result.indexOf(Direction.RIGHT));
-	assert.ok(-1 == result.indexOf(Direction.LEFT));
-	assert.ok(-1 == result.indexOf(Direction.DOWN));
+  var result = mazegen.validDirs(map, new Point(2, 2));
+  
+  assert.ok(-1 == result.indexOf(Direction.UP));
+  assert.ok(-1 == result.indexOf(Direction.RIGHT));
+  assert.ok(-1 == result.indexOf(Direction.LEFT));
+  assert.ok(-1 == result.indexOf(Direction.DOWN));
 });
 
 QUnit.test('Valid gen cannot go onto another path', function(assert) {
-	var map = stringToMap([
-		'#####',
+  var map = stringToMap([
+    '#####',
     '## ##',
-		'# @##',
-		'#####',
+    '# @##',
+    '#####',
     '#####'
-	]);
-	
-	var result = mazegen.validDirs(map, new Point(2, 2));
-	
-	assert.ok(-1 == result.indexOf(Direction.UP));
-	assert.ok(-1 != result.indexOf(Direction.RIGHT));
-	assert.ok(-1 == result.indexOf(Direction.LEFT));
-	assert.ok(-1 != result.indexOf(Direction.DOWN));
+  ]);
+  
+  var result = mazegen.validDirs(map, new Point(2, 2));
+  
+  assert.ok(-1 == result.indexOf(Direction.UP));
+  assert.ok(-1 != result.indexOf(Direction.RIGHT));
+  assert.ok(-1 == result.indexOf(Direction.LEFT));
+  assert.ok(-1 != result.indexOf(Direction.DOWN));
 });
 
 QUnit.test('Advance goes in the correct direction', function(assert) {

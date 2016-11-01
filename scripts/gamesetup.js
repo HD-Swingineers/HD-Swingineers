@@ -347,19 +347,19 @@ function onButtonSelect(listener) {
  * Returns a group of the cells which text was written to
  */
 function writeText(x, y, text) {
-	var textArray;
-	if (text.constructor == Array)
-		textArray = text;
-	else
-		textArray = text.split(/\n/);
-	var group = empty();
-	for (var i = 0; i < textArray.length; i++) {
-	  var line = textArray[i];
-		var writting = row(y).not(col(0, x-1)).text(line);
-		group = group.add(writting);
-		y++;
-	}
-	return group;
+  var textArray;
+  if (text.constructor == Array)
+    textArray = text;
+  else
+    textArray = text.split(/\n/);
+  var group = empty();
+  for (var i = 0; i < textArray.length; i++) {
+    var line = textArray[i];
+    var writting = row(y).not(col(0, x-1)).text(line);
+    group = group.add(writting);
+    y++;
+  }
+  return group;
 }
 
 /**
@@ -374,7 +374,7 @@ function writeText(x, y, text) {
  * returns nothing
  */
 function loadText(file, callback) {
-	$.ajax({
+  $.ajax({
     url: file,
     dataType: "text"
   }).done(function(data) {

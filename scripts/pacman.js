@@ -17,7 +17,7 @@ var pacman = {
    * Mirrors a map. Overlap is the amount of columns
    * along the right of the map to remove
    */
-	mirror: function(map, overlap) {
+  mirror: function(map, overlap) {
     map.splice(-overlap, overlap);
     var oldwidth = map.length;
     var newwidth = oldwidth*2;
@@ -96,15 +96,15 @@ var pacman = {
       return;
       
     grid().clear().color('#3af').back('#111').char('');    
-	  // top x,y corner
-	  var x = 0;
-	  var y = 0;
-	  
-	  for (var i = 0; i < map.length; i++) {
-	    for (var j = 0; j < map[i].length; j++) {
-	      pacman.drawCell(map, i, j);
-	    }
-	  }
+    // top x,y corner
+    var x = 0;
+    var y = 0;
+    
+    for (var i = 0; i < map.length; i++) {
+      for (var j = 0; j < map[i].length; j++) {
+        pacman.drawCell(map, i, j);
+      }
+    }
   },
   
   /**
