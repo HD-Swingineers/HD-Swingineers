@@ -40,7 +40,7 @@ $(function() {
   var start = new Point(Math.floor(WIDTH/2), 1);
   var end = new Point(start.x, HEIGHT-4);
   
-  var map = mazegen.generate(WIDTH, HEIGHT, end, start);
+  var map = mazegen.generate(WIDTH, HEIGHT-2, end, start);
   var player = new Point(start.x, start.y);
   maze.draw(map, player, end);
   movePlayer(0, 0);
